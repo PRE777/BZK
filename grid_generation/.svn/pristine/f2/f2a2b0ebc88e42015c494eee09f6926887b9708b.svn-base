@@ -1,0 +1,69 @@
+[
+  {
+    "value":"地形图",
+    "title":"d",
+    "data": [
+      {
+        "value": "居民地",
+        "title": "001",
+        "data":[]
+      },
+      {
+        "value": "水域",
+        "title": "002",
+        "data":[]
+      },
+      {
+        "value": "交通",
+        "title": "003",
+        "data":[]
+      },
+      {
+        "value": "管线",
+        "title": "004",
+        "data":[]
+      }
+    ]
+  },
+  {
+    "value":"城市地图",
+    "title":"k",
+    "data": [
+      {
+        "value": "城市道路",
+        "title": "105",
+        "data":[]
+      },
+      {
+        "value": "国道",
+        "title": "106",
+        "data":[]
+      },
+      {
+        "value": "湖泊",
+        "title": "107",
+        "data":[]
+      },
+      {
+        "value": "名胜古迹",
+        "title": "108",
+        "data":[]
+      },
+      {
+        "value": "铁路",
+        "title": "110",
+        "data":[]
+      },
+      {
+        "value": "长输通信线",
+        "title": "111",
+        "data":[]
+      },
+      {
+        "value": "长输油气管线",
+        "title": "112",
+        "data":[]
+      }
+    ]
+  }
+]

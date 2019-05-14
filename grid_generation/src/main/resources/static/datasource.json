@@ -1,0 +1,21 @@
+{
+    "value":"GF数据",
+    "title":"02",
+    "data": [
+      {
+        "value": "GF一号",
+        "title": "001",
+        "data":[]
+      },
+      {
+        "value": "GF二号",
+        "title": "002",
+        "data":[]
+      },
+      {
+        "value": "GF三号",
+        "title": "003",
+        "data":[]
+      }
+    ]
+  }

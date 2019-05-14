@@ -1,0 +1,562 @@
+<!-- 网格编码索引 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>BZK全球网格剖分系统</title>
+		<link rel="stylesheet" type="text/css" href="../src/lib/layui/css/layui.css"/>
+		<link rel="stylesheet" href="../src/css/titile.css" />
+		<script src="../src/work/jquery.js"></script>
+		<!--<script src="../src/lib/layui/layui.all.js"></script>-->
+		<script src="../src/work/httprequest.js"></script>
+	</head>
+	<body>
+	<!--<div id="high_efficiency"></div>-->
+	<!--<script>-->
+		<!--$('#high_efficiency').load('./head.html');-->
+	<!--</script>-->
+	<div class="infor_but"></div>
+	<script type="text/javascript">
+	$('.infor_but').load('./but_grid.html');
+	</script>
+	<link rel="stylesheet" href="../src/css/encoding/data_statistics.css" />
+	<div id="map"></div>
+	<!-- 关键字 -->
+	<div class="infor_ban">
+		<div class="infor_one_but">
+			<img src="../src/img/jjjj.png" style="margin-left: 10px;"/>
+			<span style="color: font-size: 16px;color: #FFFFFF;;">统计条件</span>
+		</div>
+		<div class="infor_two_but">
+			<div class="infor_select_class">
+				<div class="infor_select_name">数据类型:</div>
+				<div class="infor_select_voe">
+					<select class="infor_data_sel" id="scale_sel">
+						<option value="000">全部数据</option>
+					</select>
+				</div>
+			</div>
+			<div class="infor_content_cha">
+				<span>时间范围:</span>
+			</div>
+			<div class="infor_flex_ui">
+				<div class="layui-inline infor_layui_inline">
+				  <div>开始日期:</div>
+					<input type="text" class="layui-input inf_time_onr" id="test11" placeholder="请选择日期">
+				</div>
+				<div class="layui-inline infor_layui_inline">
+				  <div>结束日期:</div>
+				  <input type="text" class="layui-input inf_time_onr" id="test12" placeholder="请选择日期">
+				</div>
+			</div>
+			<div class="infor_content_cha">
+				<span>空间范围:</span>
+			</div>
+			<div class="aer_box">
+				<label class="bui-radios-label bui-radios-anim">
+			        <input type="radio" name="sex" value="全球范围" checked><i class="bui-radios"></i>
+			        <span>全球范围</span>
+			    </label>
+			    <label class="bui-radios-label bui-radios-anim" id="one_draws">
+			        <input type="radio" name="sex" value="单网格"><i class="bui-radios"></i>
+					<span>单网格</span>
+			    </label>
+			    <label class="bui-radios-label bui-radios-anim">
+			        <input type="radio" name="sex" value="多网格" id="two_draws"><i class="bui-radios"></i>
+			        <span>多网格</span>
+			    </label>
+			    <label class="bui-radios-label bui-radios-anim">
+			        <input type="radio" name="sex" value="区域"><i class="bui-radios"></i>
+						<div class="infor_select_voet">
+							<select class="infor_data_sel" id="resolving_power">
+								<!-- <option value="特定区域1">特定区域1</option>
+								<option value="特定区域2">特定区域2</option> -->
+							</select>
+						</div>
+			    </label>
+			</div>
+			<div class="flex_but_two">
+				<div class="infor_but_cha" id="timeSubmit">时间统计</div>
+				<div class="infor_but_cha" id="btnSubmit">空间统计</div>
+			</div>
+		</div>
+	</div>
+	<!-- Echarts -->
+	<script src="../src/work/echarts.min.js"></script>
+	<div id="echarts">
+		<img src="../src/img/encoding/colse.png" class="close_img">
+		<ul class="layui-tab-title">
+			<li class="img_li_title">直方图</li>
+			<li class="img_li_title">饼图展示</li>
+			<li class="img_li_title">折线图展示</li>
+		</ul>
+		<div class="img_div_charts">
+			<div id="columnar" class="div_charts"></div>
+			<div id="pie" class="div_charts"></div>
+			<div id="broken_line" class="div_charts"></div>
+		</div>
+	</div>
+	<div id="timeEcharts">
+		<img src="../src/img/encoding/colse.png" class="close_img">
+		<div class="img_div_chartss">
+			<div class="title_content"></div>
+			<div id="timesLine" class="div_charts_bn"></div>
+		</div>
+	</div>
+	</body>
+	<script>
+	$.ajax({cache: false})
+	$('#map').load('./_mapserver.html',function(){
+		var sc =  document.createElement("script");
+	    var scs =  document.createElement("script");
+	    sc.src= "../src/work/drawGridsEven.js";
+	    scs.src= "../src/work/drawGridsLine.js";
+	    $("body").append(sc);
+	    $("body").append(scs);
+        // $('#map').height($(window).height() - $('.top_content').height() - $('.obj_table_content').height())
+        $('#map').height($(window).height())
+	})
+	</script>
+	<script type="text/javascript">
+		window.onload = function(){
+			ajaxGet('/gridgeneration/data/getDataSource',false,function(json){
+				console.log(json.data[0].data)
+				var html = "";
+				if( json.data.length == 0 ){
+					return;
+				}
+				for(var i=0;i<json.data[0].data.length;i++){
+					html += '<option value='+json.data[0].data[i].title+'>'+json.data[0].data[i].value+'</option>';
+				};
+				$('#scale_sel').append(html)
+			})
+			//特定区域
+			ajaxGet('/gridgeneration/data/getSpecial',false,function(json){
+				console.log(json.datas)
+				var html = "";
+				if( json.datas.length == 0 ){
+					return;
+				}
+				for(var i=0;i<json.datas.length;i++){
+					html += '<option value='+json.datas[0].value+'>'+json.datas[0].name+'</option>';
+				};
+				$('#resolving_power').append(html)
+			})
+			
+			$('.close_img').on('click',function(){
+				$('#echarts').hide();
+				$('#timeEcharts').hide();
+			})
+			$('.layui-tab-title .img_li_title').eq(0).addClass('img_li_titlecolor');
+			$('.img_div_charts div').eq(0).addClass('div_yescharts');
+			$('input:radio[name="sex"]').click(function(){
+				$('#echarts').hide();
+			    var value = $(this).val();//获取选中的radio的值
+			    console.log(value)
+			    if( value == "单网格" ){
+			    	clearGridTwoEven();
+			    	getPosition();
+			    }else if(value == '多网格'){
+			    	oneDraw();
+			    	getPos();
+			    }else{
+			    	oneDraw();
+					clearGridTwoEven();
+			    }
+			});
+			//时间统计
+			$('#timeSubmit').on('click',function(){
+				var val;
+				$('#timeEcharts').hide();
+				//数据类型
+	    		var scaleVal = $('#scale_sel').val();
+	    		if( $('input:radio[name="sex"]:checked').val() == '区域' ){
+	    			val = $('#resolving_power').val();
+	    		}else{
+	    			val = $('input:radio[name="sex"]:checked').val()
+	    		}
+				//起始时间
+	    		var stratTime = $('#test11').val();
+	    		//结束时间
+	    		var endTime = $('#test12').val();
+	    		var comdata = {};
+	    		var height_cearm = Math.ceil(viewer.camera.positionCartographic.height);
+	            if( val == '全球范围' ){
+	            	comdata['height'] = height_cearm;
+	        		comdata['dataType'] = scaleVal;
+	            }else{
+	            	if($('input:radio[name="sex"]:checked').val() == '区域'){
+		            	comdata['height'] = height_cearm;
+		            	comdata['typecode'] = val;
+		            	comdata['dataType'] = scaleVal;
+		            }else{
+		            	if( sessionStorage.getItem('geonum') == null ){
+		        			layer.msg('请选择要查询的网格');
+		            		return;
+		        		}
+		            	comdata['height'] = height_cearm;
+		        		comdata['geonums'] = sessionStorage.getItem('geonum');
+		        		comdata['dataType'] = scaleVal;
+		            }
+	            }
+	    		if( stratTime != '' ){
+	            	comdata['startProductDate'] = stratTime;
+	            }else{
+	            	layer.msg('请选择开始时间');
+					return;
+	            }
+				if( endTime != '' ){
+	        		comdata['endProductDate'] = endTime;
+	            }else{
+	            	layer.msg('请选择结束时间');
+	            	return;
+	            }
+				ajaxPost('/gridgeneration/data/getDataStatisticsInforByTime',comdata,function(json){
+	    			console.log(json)	
+	    			var arrs = [];
+	    			var numArrs = [];
+	    			var nameArrs = {};
+	    			var nameAr = [];
+	    			if( json.data.length == 0 ){
+	    				$('#timeEcharts').hide();
+	    				layer.msg('库中无数据！尴尬了！');
+	    			}else{
+	    				$('.title_content').text('')
+	    				$('#timeEcharts').show();
+	    				for(var i=0;i<json.data.length;i++  ){
+	    					nameArrs = {
+	    							"value":json.data[i].docCount,
+	    							"name":json.data[i].dataTime
+	    					}
+	    					arrs.push(json.data[i].dataTime)
+	    					numArrs.push(json.data[i].docCount)
+	    					nameAr.push(nameArrs)
+	    				}
+	    				var innerhtml = selectNumber()
+	    				var ctn = arrs[0]+'到'+arrs[arrs.length-1]+'全球范围'+innerhtml+'统计展示'
+	    				$('.title_content').text(ctn)
+	    				//名字
+	    				var dataTitle = arrs;
+	    				//数字
+	    				var dataNum = numArrs;
+	    				$('#timeEcharts').show();
+	    				timeLineS(dataTitle,dataNum);
+	    			}
+				})
+			})
+			//单选框 -----空间统计
+			 var val;
+			 $("#btnSubmit").click(function(){
+				 	$('.layui-tab-title .img_li_title').unbind('click');
+				 	$('#timeEcharts').hide();
+					$('#echarts').hide();
+		          	//起始时间
+		    		var stratTime = $('#test11').val();
+		    		//结束时间
+		    		var endTime = $('#test12').val();
+		    		//数据类型
+		    		var scaleVal = $('#scale_sel').val();
+		    		//特定区域
+		    		var powerVal = $('#resolving_power').val();
+		    		if( $('input:radio[name="sex"]:checked').val() == '区域' ){
+		    			val = $('#resolving_power').val();
+		    		}else{
+		    			val = $('input:radio[name="sex"]:checked').val()
+		    		}
+		    		var comdata = {};
+		    		var height_cearm = Math.ceil(viewer.camera.positionCartographic.height);
+		            if( val == '全球范围' ){
+		            	comdata['height'] = height_cearm;
+		        		comdata['dataType'] = scaleVal;
+		            }else{
+		            	if($('input:radio[name="sex"]:checked').val() == '区域'){
+			            	comdata['height'] = height_cearm;
+			            	comdata['typecode'] = val;
+			            	comdata['dataType'] = scaleVal;
+			            }else{
+			            	if( sessionStorage.getItem('geonum') == null ){
+			        			layer.msg('请选择要查询的网格');
+			            		return;
+			        		}
+			            	comdata['height'] = height_cearm;
+			        		comdata['geonums'] = sessionStorage.getItem('geonum');
+			        		comdata['dataType'] = scaleVal;
+			            }
+		            }
+		            if( stratTime != '' ){
+		            	comdata['startProductDate'] = stratTime;
+		            }
+					if( endTime != '' ){
+		        		comdata['endProductDate'] = endTime;
+		            }
+		    		ajaxPost('/gridgeneration/data/getDataStatisticsInfor',comdata,function(json){
+		    			console.log(json)	
+		    			var arrs = [];
+		    			var numArrs = [];
+		    			var nameArrs = {};
+		    			var nameAr = [];
+		    			if( json.data.length == 0 ){
+		    				$('#echarts').hide();
+		    				layer.msg('库中无数据！尴尬了！');
+		    			}else{
+		    				for(var i=0;i<json.data.length;i++  ){
+		    					nameArrs = {
+		    							"value":json.data[i].count,
+		    							"name":json.data[i].dataTypeName
+		    					}
+		    					arrs.push(json.data[i].dataTypeName)
+		    					numArrs.push(json.data[i].count)
+		    					nameAr.push(nameArrs)
+		    				}
+		    				console.log(nameAr)
+		    				//名字
+		    				var dataTitle = arrs;
+		    				//数字
+		    				var dataNum = numArrs;
+		    				//饼图
+		    				var nameB = nameAr;
+		    				$('#echarts').show();
+		        			columnarChart(dataTitle,dataNum);
+		    			}
+		                $('.layui-tab-title .img_li_title').on('click',function(){
+		            		var index = $(this).index();
+		            		$('.layui-tab-title .img_li_title').eq(index).addClass('img_li_titlecolor').siblings().removeClass('img_li_titlecolor')
+		            		$('.img_div_charts .div_charts').eq(index).addClass('div_yescharts').siblings().removeClass('div_yescharts');
+		            		if( index == 0 ){
+		            			//柱状图
+		                        columnarChart(dataTitle,dataNum);
+		            		}else if(index == 1){
+		            			//饼图
+		            			pieChart(dataTitle,nameB)
+		            		}else if(index == 2){
+		            			//折线
+		            			brokenLineChart(dataTitle,dataNum)
+		            		}
+		            	})
+		    		})
+		    		
+			 })
+			layui.use('laydate', function(){
+			    var laydate = layui.laydate;
+				laydate.render({
+				  elem: '#test11',
+				  format: 'yyyy-MM-dd'
+				});
+				laydate.render({
+				  elem: '#test12',
+				  format: 'yyyy-MM-dd'
+				});
+			})
+			//柱状图
+			function columnarChart(dataTitle,dataNum){
+				 //柱状图
+				 var columnarChart = echarts.init(document.getElementById('columnar'));         
+		          var option = {
+		  			 	color: ['#3398DB'],
+					    tooltip : {
+					        trigger: 'axis',
+					        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+					            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+					        }
+					    },
+					    xAxis : [
+					        {
+					            type : 'category',
+					            data: dataTitle,
+					            axisLabel :{
+					                interval:0,
+					                formatter:function(value)
+					                {
+					                    return value.split("").join("\n");
+					                }
+					            },
+						    },
+						],
+					    grid: {
+					    	y2: 140
+					    },
+					    yAxis : [
+					        {
+					            type : 'value',
+					            axisLine: {show:false},
+			                    axisTick: {show:false},
+			                    margin: 2,
+			                    axisLabel :{
+					                interval:0,
+					                formatter: function (value, index) {
+				                        if (value >= 10000 && value < 10000000) {
+				                            value = value / 10000 + "万";
+				                        } else if (value >= 10000000) {
+				                            value = value / 10000000 + "千万";
+				                        }
+				                        return value;
+				                    }
+					            }
+			                    
+					        }
+					    ],
+					    series : [
+					        {
+					            name:'网格数据统计',
+					            type:'bar',
+					            barWidth: '60%',
+					            data:dataNum
+					        }
+					    ]
+				    }
+				// 为echarts对象加载数据 
+				columnarChart.setOption(option);
+			 }
+			 
+			 //饼图
+			 function pieChart(dataTitle,dataNum){
+					var pieChart = echarts.init(document.getElementById('pie'));
+					pieChart.setOption({
+						    tooltip : {
+						        trigger: 'item',
+						        formatter: "{a} <br/>{b} : {c} ({d}%)"
+						    },
+						    legend: {
+						        //orient: 'vertical',
+						        // top: 'middle',
+						        bottom:'30',
+						        type: 'scroll',
+						        //orient: 'vertical',
+						        selected: dataTitle
+						    },
+						    
+						    series : [
+						        {
+						            type: 'pie',
+						            radius : '45%',
+						            center: ['50%', '35%'],
+						            selectedMode: 'single',
+						            data:dataNum,
+						            itemStyle: {
+						                emphasis: {
+						                    shadowBlur: 10,
+						                    shadowOffsetX: 0,
+						                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+						                }
+						            }
+						        }
+						    ]
+					});
+			 }
+			 //折线
+			 function brokenLineChart(dataTitle,dataNum){
+					var brokenLineChart = echarts.init(document.getElementById('broken_line'));
+					brokenLineChart.setOption({
+					    xAxis: {
+					        type: 'category',
+					        data: dataTitle,
+					        axisLabel :{
+				                interval:0,
+				                formatter:function(value)
+				                {
+				                    return value.split("").join("\n");
+				                }
+				            },
+					    },
+					    grid: {
+					    	y2: 140
+					    },
+					    yAxis : [
+					        {
+					            type : 'value',
+					            axisLine: {show:false},
+			                    axisTick: {show:false},
+			                    margin: 2,
+			                    axisLabel :{
+					                interval:0,
+					                formatter: function (value, index) {
+				                        if (value >= 10000 && value < 10000000) {
+				                            value = value / 10000 + "万";
+				                        }else if (value >= 10000000) {
+				                            value = value / 10000000 + "千万";
+				                        }else if (value >= 100000000) {
+				                            value = value / 100000000 + "亿";
+				                        }
+				                        return value;
+				                    }
+					            }
+					        }
+					    ],
+					    series: [{
+					        data: dataNum,
+					        type: 'line'
+					    }]
+					})
+			 }
+			//时间轴-----折线图
+			function timeLineS(dataTitle,dataNum){
+				/* app.title = '多 X 轴示例'; */
+				var timesLine = echarts.init(document.getElementById('timesLine'));
+				var colors = ['#5793f3', '#d14a61', '#675bba'];
+				console.log(timesLine)
+				timesLine.setOption({
+					color: colors,
+				    tooltip: {
+				        trigger: 'none',
+				        axisPointer: {
+				            type: 'cross'
+				        }
+				    },
+				    legend: {
+				        data:['2015 降水量']
+				    },
+				    grid: {
+				        top: 70,
+				        bottom: 50
+				    },
+				    xAxis: [
+				        {
+				            type: 'category',
+				            axisTick: {
+				                alignWithLabel: true
+				            },
+				            axisLine: {
+				                onZero: false,
+				                lineStyle: {
+				                    color: colors[0]
+				                }
+				            },
+				            axisPointer: {
+				                label: {
+				                    formatter: function (params) {
+				                        console.log(params)
+				                        return '数据:' + params.value
+				                            + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
+				                    }
+				                }
+				            },
+				            data: dataTitle
+				        }
+				    ],
+				    yAxis: [
+				        {
+				            type: 'value'
+				        }
+				    ],
+				    series: [
+				        {
+				            name:'2016 降水量',
+				            type:'line',
+				            smooth: true,
+				            data: dataNum
+				        }
+				    ]
+				})	
+			}
+			function selectNumber(){
+				var num = $('#scale_sel').val();   //获取input中输入的数字
+				var numbers =$('#scale_sel').find("option"); //获取select下拉框的所有值
+				for (var j = 0; j < numbers.length; j++) {
+					if ($(numbers[j]).val() == num) {
+						return numbers[j].innerHTML
+					}
+				} 
+			}
+		};
+	</script>
+</html>

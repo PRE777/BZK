@@ -1,0 +1,325 @@
+<!-- 网格编码索引 -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>BZK全球网格剖分系统</title>
+    <link rel="stylesheet" type="text/css" href="../src/lib/layui/css/layui.css"/>
+    <link rel="stylesheet" href="../src/css/titile.css"/>
+    <script src="../src/work/jquery.js"></script>
+    <script src="../src/lib/layui/layui.all.js"></script>
+    <script src="../src/work/httprequest.js"></script>
+    <style>
+        /* 滚动条的宽度 */
+        .layui-table-body::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        /* 滚动条的滑块 */
+        .layui-table-body::-webkit-scrollbar-thumb {
+            background-color: cadetblue;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<!--<div id="high_efficiency"></div>-->
+<!--<script>-->
+    <!--$('#high_efficiency').load('./head.html');-->
+<!--</script>-->
+
+<!--<div style="background-color: red;width: 180px;height: 50%">-->
+
+<!--</div>-->
+
+<div class="infor_but"></div>
+<script type="text/javascript">
+    $('.infor_but').load('./but_grid.html');
+</script>
+<div class="content_html">
+    <div class="newdata"></div>
+    <script>
+        $('.newdata').load('./tree.html')
+    </script>
+    <link rel="stylesheet" href="../src/css/encoding/infor.css"/>
+    <div id="map"></div>
+</div>
+<!-- 关键字 -->
+<div class="infor_ban">
+    <div class="infor_one_but">
+        <img src="../src/img/jjjj.png" style="margin-left: 10px;"/>
+        <span style="color: black ;font-size: 16px;color: #FFFFFF;;">关键词及网络组合查询</span>
+    </div>
+    <div class="infor_two_but">
+        <div class="infor_content_cha">
+            <!-- <img src="../src/img/encoding/start.png" class="img_blue_j"/> -->
+            <span>生产时间</span>
+        </div>
+        <div>
+            <!--
+                <form class="layui-form" action="">
+                 <div class="">
+                    <div class="layui-input-block in_lay_but">
+                      <input type="radio" name="sex" value="影像获取时间" title="影像获取时间" checked="">
+                      <input type="radio" name="sex" value="成图时间" title="成图时间">
+                    </div>
+                  </div>
+                </from>
+             -->
+            <div class="infor_flex_ui">
+                <div class="layui-inline infor_layui_inline">
+                    <div>开始日期:</div>
+                    <input type="text" class="layui-input inf_time_onr" id="test11" placeholder="请选择日期">
+                </div>
+                <div class="layui-inline infor_layui_inline">
+                    <div>结束日期:</div>
+                    <input type="text" class="layui-input inf_time_onr" id="test12" placeholder="请选择日期">
+                </div>
+            </div>
+        </div>
+        <div class="infor_content_cha">
+            <!-- <img src="../src/img/encoding/start.png" class="img_blue_j"/> -->
+            <span>属性查询</span>
+        </div>
+        <div class="infor_select_class">
+            <div class="infor_select_name">比例尺:</div>
+            <div class="infor_select_voe">
+                <select class="infor_data_sel" id="scale_sel">
+                    <option value="null">不限</option>
+                    <option value="1000000">1:100万</option>
+                    <option value="250000">1:25万</option>
+                    <option value="50000">1:5万</option>
+                    <option value="10000">1:1万</option>
+                    <option value="5000">1:5000</option>
+                    <option value="2000">1:2000</option>
+                </select>
+            </div>
+        </div>
+        <div class="infor_select_class">
+            <div class="infor_select_name">分辨率:</div>
+            <div class="infor_select_voe">
+                <select class="infor_data_sel" id="resolving_power">
+                    <option value="null">不限</option>
+                    <option value="100">100米</option>
+                    <option value="25">25米</option>
+                    <option value="15">15米</option>
+                    <option value="10">10米</option>
+                    <option value="5">5米</option>
+                    <option value="2">2米</option>
+                    <option value="1">1米</option>
+                    <option value="0.5">0.5米</option>
+                </select>
+            </div>
+        </div>
+        <div class="infor_select_class">
+            <div class="infor_select_name">图幅号:</div>
+            <div class="infor_select_voe">
+                <input type="" name="" id="img_sel_infor" value=""/>
+            </div>
+        </div>
+        <div class="infor_select_class">
+            <div class="infor_select_name">云盖量:</div>
+            <div class="infor_select_voe">
+                <input type="" name="" id="yu_sel_infor" value=""/>
+            </div>
+        </div>
+        <div class="infor_but_cha">查询</div>
+    </div>
+</div>
+<!-- 右层菜单栏 -->
+<div class="right_infor_content">
+    <div class="right_infor">
+        <div class="infor_but_content" data-right="0">
+            <img src="../src/img/map/0.png">
+            <span>单网格</span>
+        </div>
+        <div class="infor_but_content" data-right="0">
+            <img src="../src/img/map/1.png">
+            <span>多网格</span>
+        </div>
+        <div class="infor_but_content" data-right="0">
+            <img src="../src/img/map/2.png">
+            <span>手画区域</span>
+        </div>
+        <div class="infor_but_content" data-right="0">
+            <img src="../src/img/map/3.png">
+            <span>行政区域</span>
+        </div>
+    </div>
+    <div class="right_infor_right">
+        <div class="infor_but_content">
+            <img src="../src/img/map/4.png">
+            <span>组合查询</span>
+        </div>
+        <div class="infor_but_content">
+            <img src="../src/img/map/5.png">
+            <span>三维</span>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="../src/css/encoding/table.css"/>
+<div class="layui-tab bottom_table" style="margin: 0;">
+</div>
+
+<script>
+    //查询
+    $('.infor_but_cha').on('click', function () {
+        if (xtree1.GetChecked().length == 0) {
+            layer.msg('请勾选要查找的资源');
+            return;
+        }
+        console.log(sessionStorage.getItem('geonum'))
+        if (sessionStorage.getItem('geonum') == null) {
+            layer.msg('请选择要查询的网格');
+            return;
+        }
+        var geonum = sessionStorage.getItem('geonum');
+        //分辨率
+        var powerVal = $('#resolving_power').val();
+        //比例尺
+        var scaleVal = $('#scale_sel').val();
+        //云量
+        var yu_sel_infor = $('#yu_sel_infor').val();
+        //图符
+        var img_sel_infor = $('#img_sel_infor').val();
+        //起始时间
+        var stratTime = $('#test11').val();
+        //结束时间
+        var endTime = $('#test12').val();
+        var data = {
+            startProductDate: stratTime,
+            endProductDate: endTime,
+            geoResName: img_sel_infor
+        }
+        if (parseInt(scaleVal)) {
+            data['scale'] = parseInt(scaleVal)
+        }
+        if (parseInt(scaleVal)) {
+            data['cellSize'] = powerVal
+        }
+        combination(geonum, data)
+    })
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#test11',
+            format: 'yyyy-MM-dd'
+        });
+        laydate.render({
+            elem: '#test12',
+            format: 'yyyy-MM-dd'
+        });
+    })
+    $('.right_infor .infor_but_content').on('click', function () {
+        var index = $(this).index();
+        if (xtree1.GetChecked().length == 0) {
+            layer.msg('请勾选要查找的资源');
+            return;
+        }
+        console.log(index)
+        if (index == 0) {
+            if ($('.right_infor .infor_but_content').eq(index).is('.infor_but_content_bg')) {
+                $('.right_infor .infor_but_content').eq(index).removeClass('infor_but_content_bg');
+                oneDraw()
+            } else {
+                $('.right_infor .infor_but_content').eq(index).addClass('infor_but_content_bg').siblings().removeClass('infor_but_content_bg');
+                manyDraw();
+                clearGridTwoEven();
+                removeImageryLayers()
+                getPosition();
+            }
+        } else if (index == 1) {
+            if ($('.right_infor .infor_but_content').eq(index).is('.infor_but_content_bg')) {
+                $('.right_infor .infor_but_content').eq(index).removeClass('infor_but_content_bg');
+                //清除
+                clearGridTwoEven();
+            } else {
+                $('.right_infor .infor_but_content').eq(index).addClass('infor_but_content_bg').siblings().removeClass('infor_but_content_bg');
+                oneDraw();
+                manyDraw()
+                removeImageryLayers()
+                //多网格--画
+                getPos()
+            }
+        } else if (index == 2) {
+            if ($('.right_infor .infor_but_content').eq(index).is('.infor_but_content_bg')) {
+                $('.right_infor .infor_but_content').eq(index).removeClass('infor_but_content_bg');
+                manyDraw();
+            } else {
+                $('.right_infor .infor_but_content').eq(index).addClass('infor_but_content_bg').siblings().removeClass('infor_but_content_bg');
+                oneDraw();
+                clearGridTwoEven();
+                drawPolygon();
+                removeImageryLayers()
+            }
+        } else if (index == 3) {
+            if ($('.right_infor .infor_but_content').eq(index).is('.infor_but_content_bg')) {
+                $('.right_infor .infor_but_content').eq(index).removeClass('infor_but_content_bg');
+                //再次触发取消
+                removeImageryLayers()
+            } else {
+                $('.right_infor .infor_but_content').eq(index).addClass('infor_but_content_bg').siblings().removeClass('infor_but_content_bg');
+                //清除互斥
+                oneDraw();
+                manyDraw();
+                clearGridTwoEven();
+                //执行自己的事件
+                managementGrid()
+            }
+        }
+    });
+    $('.right_infor_right .infor_but_content').on('click', function () {
+        var index = $(this).index();
+        //console.log(xtree1.GetChecked())
+        if (xtree1.GetChecked().length == 0) {
+            layer.msg('请勾选要查找的资源');
+            return;
+        }
+        console.log(index)
+        if (index == 0) {
+            if ($('.right_infor_right .infor_but_content').eq(index).is('.infor_but_content_bg')) {
+                $('.right_infor_right .infor_but_content').eq(index).removeClass('infor_but_content_bg');
+                $('.infor_ban').hide();
+            } else {
+                $('.right_infor_right .infor_but_content').eq(index).addClass('infor_but_content_bg').siblings().removeClass('infor_but_content_bg');
+                $('.infor_ban').show();
+            }
+        } else if (index == 1) {
+            if ($('.right_infor_right .infor_but_content').eq(index).is('.infor_but_content_bg')) {
+                $('.right_infor_right .infor_but_content').eq(index).removeClass('infor_but_content_bg');
+                Scene()
+            } else {
+                $('.right_infor_right .infor_but_content').eq(index).addClass('infor_but_content_bg').siblings().removeClass('infor_but_content_bg');
+                Scene()
+            }
+        }
+    })
+</script>
+<script>
+    if (window.location.search.indexOf("?") < 0) { //判断是否是第一次加载
+        sessionStorage.removeItem('geonum');
+    } else {
+    }  //第二次加载空操作
+    $.ajaxSetup({cache: false})
+    $('#map').load('./_mapserver.html', function () {
+        var sc = document.createElement("script");
+        var scs = document.createElement("script");
+        sc.src = "../src/work/drawGrids.js";
+        scs.src = "../src/work/drawGridsLine.js";
+        $("body").append(sc);
+        $("body").append(scs);
+        // $('#map').height($(window).height() - $('.top_content').height() - $('.obj_table_content').height())
+        $('#map').height($(window).height())
+    });
+</script>
+</body>
+<script type="text/javascript">
+    //区别之分----
+    window.onload = function () {
+        console.log($(window).height())
+        console.log($('.top_content').height())
+    };
+</script>
+</html>

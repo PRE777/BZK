@@ -1,0 +1,91 @@
+<!-- 网格编码索引 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>BZK全球网格剖分系统</title>
+		<link rel="stylesheet" type="text/css" href="../src/lib/layui/css/layui.css"/>
+		<link rel="stylesheet" href="../src/css/titile.css" />
+		<link rel="stylesheet" href="../src/css/encoding/encoding.css" />
+		<script src="../src/work/jquery.js"></script>
+		<!--<script src="../src/lib/layui/layui.all.js"></script>-->
+		<script src="../src/work/httprequest.js"></script>
+		<style>
+			table{
+				width: 100% !important;
+			}
+			.layui-table-tool-self{
+				display: none;
+			}
+			td{
+			}
+		</style>
+	</head>
+	<body>
+	<!--<div id="high_efficiency"></div>-->
+	<!--<script>-->
+		<!--$('#high_efficiency').load('./head.html');-->
+	<!--</script>-->
+	<div class="enc_div">
+		<div id="enc_but">
+			<div class="encoding_ele">
+				<div id="enc_name">数据批量编码导入</div>
+			</div>
+		</div>
+		<!-- 下拉框 -->
+		<div class="enc_sel">
+			<div class="enc_sel_name">数据类型：</div>
+			<div class="select-menu">
+				<div class="select-menu-div">
+					<input id="No1" readonly class="select-menu-input" />
+					<img src="../src/img/sel.png" style="display: inline-block;height: 30px;width: 27px;"/>
+				</div>
+				<ul class="select-menu-ul">
+					
+				</ul>
+			</div>	
+		</div>
+		<!-- 按钮 -->
+		<div class="enc_coding">生成编码</div>
+		<div class="warehousing">入  库</div>
+	</div>
+	<!-- table表格-->
+	<table class="layui-hide" id="test"></table>
+	<div id="pages" style="text-align:right;margin-right:5.4%;"></div>
+	</body>
+	<script src="../src/work/enc.js"></script>
+	<script>
+	$(function () { 
+		// 生成编码
+	 	$('.warehousing').on('click',function(){
+	 		$('.enc_coding').unbind('click');
+	 	})
+	 	//入库
+	 	$('.warehousing').on('click',function(){
+	 		var dType = $('.select-menu-input').data('datat');
+	 		var typeName = $('.select-menu-input').val();
+	 		if($('.select-menu-input').data('datat') != undefined){
+	 			ajaxGet('/gridgeneration/data/addDataToEs?dataType='+dType+'',false,function(json){
+	 				layer.msg(typeName+'类型入库成功！')
+	 			},function(error){
+	 				if(error.server_status != 200){
+						layer.msg('服务器异常,请稍后再试')
+					}
+	 			})
+	 		}else{
+	 			layer.msg('请选择入库的数据类型')
+	 		}
+	 	})
+	  	ajaxGet('/gridgeneration/data/getDataSource',false,function(json){
+			var html = "";
+			if( json.data.length == 0 ){
+				return;
+			}
+			for(var i=0;i<json.data[0].data.length;i++){
+				html += '<li data-dataType='+json.data[0].data[i].title+'>'+json.data[0].data[i].value+'</li>';
+			};
+			$('.select-menu-ul').append(html)
+		})
+	})
+	</script>
+</html>

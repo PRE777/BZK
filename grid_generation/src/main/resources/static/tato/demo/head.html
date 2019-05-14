@@ -1,0 +1,188 @@
+<!-- 头部 -->
+<div class="top_content">
+	<img src="../Cesium/Assets/Textures/LensFlare/StarBurst.jpg" class="obj_logo" />
+	<div class="obj_name">BZK全球网格剖分分系统</div>
+	<!-- 待定 -->
+	<div class="saveLinks" style="position:absolute;right:0px;">
+		<form id="signupListImportForms"  class="import-file-form" enctype="multipart/form-data">
+		    <input type="file"  id="excelFiles" name="shpFiles" style="display:none" multiple="multiple">
+		    <input type="button" value="" class="browse" onclick="selectFiles()" style="border:0px;">
+		</form>
+	</div>
+</div>
+<!-- tableTable -->
+<div class="obj_table_content">
+	<ul class="obj_table_title">
+		<li class="hover_bg">
+			<div>统一网格编码索引</div>
+			<div class="enc_ul">
+				<div>数据批量编码导入</div>
+				<div>数据自动更新服务</div>
+			</div>
+		</li>
+		<li>信息高效检索</li>
+		<li>数据分布及状态监视</li>
+		<li>数据分类/分布应用统计</li>
+		<li>数据网格化分发</li>
+		<li>数据关联整合</li>
+		<li>矢量要素检索</li>
+		<li>数据网络离散化处理</li>
+	</ul>
+	<div class="obj_img_jt">
+		<img src="../src/img/j_right.png" class="obj_jt">
+	</div>
+
+</div>
+<script type="text/javascript" src="../src/work/getUrlParam.js"></script>
+<script>
+	var formDatas = new FormData();
+	var test = document.getElementById('excelFiles');
+	test.addEventListener('change', function() {
+	    var t_files = this.files;
+	    var str = '';
+	    console.log(t_files)
+	    var arre = []
+	    for (var i = 0, len = t_files.length; i < len; i++) {
+	    	formDatas.append('shpFiles', t_files[i]);
+	    };
+	    fileUploads(formDatas)
+	}, false);
+	function selectFiles(){
+	    $("#excelFiles").trigger("click");
+	}
+	//文件上传
+	function fileUploads(arr){
+		$.ajax({
+		   url: "/gridgeneration/data/insertDataByShp",
+	       type: "POST",
+	       data: arr,
+	       contentType: false,
+	       processData: false,
+	       success:function(data){
+	       	 console.log(data)
+	       },
+	       error:function(){
+	    	 layer.msg('数据上传失败');
+	       }
+	   })
+	}
+	var index_pages = UrlParm.parm("index");
+	if( index_pages == undefined ){
+		index_pages = 0;
+	}
+	$('.obj_table_title li').eq(index_pages).addClass('hover_bg').siblings().removeClass('hover_bg');
+	$('.obj_table_title li').on('click',function(){
+		sessionStorage.removeItem('geonum')
+		var index = $(this).index();
+		$('.obj_table_title li').eq(index).addClass('hover_bg').siblings().removeClass('hover_bg');
+		if( index == 0 ){
+			$('.enc_ul').show();
+		}else if(index == 1){
+			location.href="./high_efficiency.html?index=1";
+		}else if(index == 2){
+			location.href="./server_monitor.html?index=2";
+		}else if(index == 3){
+			location.href="./charts_data.html?index=3";
+		}else if(index == 4){
+			//$('.enc_ul').hide();
+			//$('.content_html').empty()
+			//$('.content_html').load('./data_distribute.html');
+		}else if(index == 5){
+			location.href="./link_data.html?index=5";
+		}else if(index == 6){
+			location.href="./geojson.html?index=6";
+		}else if(index == 7){
+			location.href="./handle.html?index=7";
+		}
+	})
+	$('.enc_ul div').on('click',function(event){
+		event.stopPropagation();
+		var index = $(this).index();
+		$('.enc_ul').hide();
+		if( index == 0 ){
+			location.href="./import.html?index=0";
+		}else if(index == 1){
+			location.href="./update.html?index=0";
+		}
+	})
+	/* document.onkeydown = function(){
+	if(window.event && window.event.keyCode == 123) {
+	    //alert("F12被禁用");
+	    event.keyCode=0;
+	    event.returnValue=false;
+	}
+	if(window.event && window.event.keyCode == 13) {
+	    window.event.keyCode = 505;
+	}
+	if(window.event && window.event.keyCode == 8) {
+	    //alert(str+"\n请使用Del键进行字符的删除操作！");
+	    window.event.returnValue=false;
+	}
+	
+	}
+	document.oncontextmenu = function (event){
+		if(window.event){
+		event = window.event;
+		}try{
+		var the = event.srcElement;
+		if (!((the.tagName == "INPUT" && the.type.toLowerCase() == "text") || the.tagName == "TEXTAREA")){
+		return false;
+		}
+		return true;
+		}catch (e){
+		return false;
+		}
+		}
+	document.onpaste = function (event){
+		if(window.event){
+		event = window.event;
+		}try{
+		var the = event.srcElement;
+		if (!((the.tagName == "INPUT" && the.type.toLowerCase() == "text") || the.tagName == "TEXTAREA")){
+		return false;
+		}
+		return true;
+		}catch (e){
+		return false;
+		}
+		}
+	document.oncopy = function (event){
+		if(window.event){
+		event = window.event;
+		}try{
+		var the = event.srcElement;
+		if(!((the.tagName == "INPUT" && the.type.toLowerCase() == "text") || the.tagName == "TEXTAREA")){
+		return false;
+		}
+		return true;
+		}catch (e){
+		return false;
+		}
+		}
+	document.onselectstart = function (event){
+		if(window.event){
+		event = window.event;
+		}try{
+		var the = event.srcElement;
+		if (!((the.tagName == "INPUT" && the.type.toLowerCase() == "text") || the.tagName == "TEXTAREA")){
+		return false;
+		}
+		return true;
+		} catch (e) {
+		return false;
+		}
+		}
+	document.oncut = function (event){
+		if(window.event){
+		event = window.event;
+		}try{
+		var the = event.srcElement;
+		if(!((the.tagName == "INPUT" && the.type.toLowerCase() == "text") || the.tagName == "TEXTAREA")){
+		return false;
+		}
+		return true;
+		}catch (e){
+		return false;
+		}
+		} */
+</script>

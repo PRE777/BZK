@@ -1,0 +1,132 @@
+<!-- 网格编码索引 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>BZK全球网格剖分系统</title>
+		<link rel="stylesheet" type="text/css" href="../src/lib/layui/css/layui.css"/>
+		<link rel="stylesheet" href="../src/css/titile.css" />
+		<link rel="stylesheet" href="../src/css/encoding/infor.css" />
+		<script src="../src/work/jquery.js"></script>
+		<script src="../src/lib/layui/layui.all.js"></script>
+		<script src="../src/work/httprequest.js"></script>
+	</head>
+	<body>
+	<!--<div id="high_efficiency"></div>-->
+	<!--<script>-->
+		<!--$('#high_efficiency').load('./head.html');-->
+	<!--</script>-->
+	<div class="infor_but"></div>
+	<script type="text/javascript">
+	$('.infor_but').load('./but_grid.html');
+	</script>
+	<div class="newdata"></div>
+	<script>
+		$('.newdata').load('./tree_dist.html')
+	</script>
+	<div id="map">
+	</div>
+	<!-- 右层菜单栏 -->
+	<div class="right_infor_content">
+		<div class="right_infor">
+			<div class="infor_but_content" data-right="0">
+				<img src="../src/img/map/0.png" >
+				<span>单网格</span>
+			</div>
+			<div class="infor_but_content" data-right="0">
+				<img src="../src/img/map/1.png" >
+				<span>多网格</span>
+			</div>
+			<div class="infor_but_content" data-right="0">
+				<img src="../src/img/map/2.png" >
+				<span>手画区域</span>
+			</div>
+			<div class="infor_but_content" data-right="0">
+				<img src="../src/img/map/3.png" >
+				<span>行政区域</span>
+			</div>
+		</div>
+	</div>
+	<style>
+	    body{overflow-y: scroll;} /* 禁止刷新后出现横向滚动条 */
+	</style>
+	
+	<link rel="stylesheet" href="../src/css/encoding/gf_table.css" />
+	<div class="layui-tab bottom_table" style="margin: 0;">
+		
+	</div>
+	<div class="layui-tab gf_bottom_table" style="margin: 0;">
+		
+	</div>
+	<script type="text/html" id="barDemo">
+  		<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">数据关联</a>
+  		<a class="layui-btn layui-btn-xs" lay-event="edit">上图</a>
+	</script>
+</body>
+	<script type="text/javascript">
+		
+			$('.right_infor .infor_but_content').on('click',function(){
+				var index = $(this).index();
+				if( xtree1.GetChecked().length == 0 ){
+					layer.msg('请勾选要查找的资源');
+					return;
+				}
+				console.log(index)
+				if(index == 0){
+					if( $('.right_infor .infor_but_content').eq(index).is('.infor_but_content_bg') ){
+						$('.right_infor .infor_but_content').eq(index).removeClass('infor_but_content_bg');
+						oneDraw()
+					}else{
+						$('.right_infor .infor_but_content').eq(index).addClass('infor_but_content_bg').siblings().removeClass('infor_but_content_bg');
+						manyDraw();
+						clearGridTwoEven();
+						getPosition();
+					}
+				}else if( index == 1 ){
+					if( $('.right_infor .infor_but_content').eq(index).is('.infor_but_content_bg') ){
+						$('.right_infor .infor_but_content').eq(index).removeClass('infor_but_content_bg');
+						//清除
+						clearGridTwoEven();
+					}else{
+						$('.right_infor .infor_but_content').eq(index).addClass('infor_but_content_bg').siblings().removeClass('infor_but_content_bg');
+						oneDraw();
+						manyDraw()
+						//多网格--画
+						getPos()
+					}
+				}else if( index == 2 ){
+					if( $('.right_infor .infor_but_content').eq(index).is('.infor_but_content_bg') ){
+						$('.right_infor .infor_but_content').eq(index).removeClass('infor_but_content_bg');
+						manyDraw();
+					}else{
+						$('.right_infor .infor_but_content').eq(index).addClass('infor_but_content_bg').siblings().removeClass('infor_but_content_bg');
+						oneDraw();
+						clearGridTwoEven();
+						drawPolygon();
+					}
+				}else if( index == 3 ){
+					if( $('.right_infor .infor_but_content').eq(index).is('.infor_but_content_bg') ){
+						$('.right_infor .infor_but_content').eq(index).removeClass('infor_but_content_bg');
+						//再次触发取消
+						removeImageryLayers()
+					}else{
+						$('.right_infor .infor_but_content').eq(index).addClass('infor_but_content_bg').siblings().removeClass('infor_but_content_bg');
+						oneDraw();
+						clearGridTwoEven();
+						manyDraw();
+						managementGrid()
+					}
+				}
+			});
+			$('#map').load('./_mapserver.html',function(){
+				var sc =  document.createElement("script");
+			    var scs =  document.createElement("script");
+			    sc.src= "../src/work/gf_drawGrids.js";
+			    scs.src= "../src/work/drawGridsLine.js";
+			    $("body").append(sc);
+			    $("body").append(scs);
+                // $('#map').height($(window).height() - $('.top_content').height() - $('.obj_table_content').height())
+                $('#map').height($(window).height())
+			})
+	</script>
+</html>

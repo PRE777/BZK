@@ -1,0 +1,313 @@
+<!-- 网格编码索引 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>BZK全球网格剖分系统</title>
+		<link rel="stylesheet" type="text/css" href="../src/lib/layui/css/layui.css"/>
+		<link rel="stylesheet" href="../src/css/titile.css" />
+		<!-- <link rel="stylesheet" href="../src/css/encoding/encoding.css" /> -->
+		<script src="../src/work/jquery.js"></script>
+		<script src="../src/lib/layui/layui.all.js"></script>
+		<script src="../src/work/httprequest.js"></script>
+		<script src="../src/lib/from.js"></script>
+		<style>
+			table{
+				width: 100% !important;
+			}
+			.layui-table-tool-self{
+				display: none;
+			}
+			.butContent{
+				height:58.3px;
+				width:100%;
+				border-top:1px soild #ccc;
+				border-bottom:1px soild #ccc;
+				box-sizing: border-box;
+				display:flex;
+				align-items: center;
+				font-family: .PingFang-SC-Regular;
+				font-size: 14px;
+				color: #5B7DCE;
+				letter-spacing: 0;
+			}
+			.inputCss{
+				height:28px;
+				background: #FFFFFF;
+				border: 1px solid #B3B3B3;
+				box-sizing: border-box;
+				border-right:0px;
+			}
+			.browse{
+				display: inline-block;
+			    border: 0px;
+			    height: 28px;
+			    opacity: 0.9;
+			    background:none;
+				border: 1px solid #6C8AD3;
+				line-height:28px;
+				text-align:center;
+				width:50px;
+				font-family: PingFangSC-Regular;
+				font-size: 14px;
+				color: #6C8AD3;
+				letter-spacing: 0;
+				box-sizing: border-box;
+			}
+			.saveLink{
+				display: flex;
+    			align-items: center;
+			}
+			#startHandle{
+				margin-left:5%;
+				display: inline-block;
+				opacity: 0.9;
+				border: 1px solid #6C8AD3;
+				width:86px;
+				height:28px;
+				font-family: PingFangSC-Regular;
+				font-size: 14px;
+				color: #6C8AD3;
+				background:none;
+				letter-spacing: 0;
+				display:none;
+			}
+			#handle{
+				margin-left:3%;
+				display: inline-block;
+				opacity: 0.9;
+				border: 1px solid #6C8AD3;
+				width:76px;
+				height:28px;
+				background:none;
+				font-family: PingFangSC-Regular;
+				font-size: 14px;
+				color: #6C8AD3;
+				letter-spacing: 0;
+				display:none;
+				text-align: center;
+    			line-height: 28px;
+			}
+			.butContent .saveLink:nth-child(1){
+				margin-left:8%;
+			}
+			.butContent .saveLink:nth-child(2){
+				margin-left:11%;
+			}
+			.infor_but {
+			    position: absolute;
+			    top: 60px;
+			    right: 0px;
+			    width: 9.7%;
+			}
+		</style>
+	</head>
+	<body>
+	<div id="high_efficiency"></div>
+	<script>
+		$('#high_efficiency').load('./head.html');
+	</script>
+	<div class="infor_but"></div>
+	<script type="text/javascript">
+	$('.infor_but').load('./but_grid.html');
+	</script>
+	<!-- 按钮 -->
+	<div class="butContent">
+		<div class="saveLink">
+			原始数据路径：
+			<input type="text" class="inputCss"/>
+			<!-- <input type="button" onclick="UpladFile()" class="browse" value="浏览" /> -->
+			<form id="signupListImportForm"  class="import-file-form" enctype="multipart/form-data">  
+			    <input type="file"  id="excelFile" name="multipartFile" style="display:none" multiple="multiple" onchange="fileUpload()">  
+			    <input type="button" value="浏览" class="browse" onclick="selectFile()">  
+			</form>
+		</div>
+		<button id="startHandle">离散预处理</button>
+		<a id="handle" href="">离散处理</a>
+	</div>
+	<div id="map"></div>
+	</body>
+	<script>
+	var test = document.getElementById('excelFile');
+	test.addEventListener('change', function() {
+	    var t_files = this.files;
+	    var str = '';
+	    for (var i = 0, len = t_files.length; i < len; i++) {
+	        str += t_files[i].name+','
+	    };
+	    $('.inputCss').val(str)
+	}, false);
+	var scode;
+	var sourceId;
+	function selectFile(){
+	    $("#excelFile").trigger("click");
+	}
+	//文件上传
+	function fileUpload(){
+		console.log(new FormData($('#signupListImportForm')[0]))
+		oneDraw();
+		var index = layer.load(2, {time: 20*1000}); 
+		$.ajax({
+		   url: "/gridgeneration/discretize/uploadVectorFile",
+	       type: "POST",
+	       data: new FormData($('#signupListImportForm')[0]),
+	       contentType: false,
+	       processData: false,
+	       success:function(data){
+	    	 layer.close(index);
+	       	 var json = JSON.parse(data.data.geojson)
+	       	 sourceId = data.data.sourceId
+	       	 json['name'] = 'line1'
+	       	 console.log(json)
+	       	 managementGrid(JSON.stringify(json))
+	       	 //console.log(JSON.stringify(json))
+	       	 $('#excelFile').val('')
+	       	 $('#handle').hide();
+	       	 $('#startHandle').show();
+	       	 layer.msg('矢量数据上传成功');
+	       },
+	       error:function(){
+	    	 layer.close(index);
+	    	 layer.msg('矢量数据上传失败');
+	    	 $('#excelFile').val('')
+	       }
+	   })
+	}
+	function managementGrid(jsonp){
+		var sos = JSON.parse(jsonp)
+		console.log(sos)
+		var promise = Cesium.GeoJsonDataSource.load(sos); 
+	    //显示管线数据  直接加载json数据 比把json转化成czml在加载 快很多
+	    promise.then(function (dataSource) {
+	        viewer.dataSources.add(dataSource);
+	        var entities = dataSource.entities.values;
+	        var colorHash = {};
+	        var color = new Cesium.Color(235/255.0,18/255.0,0,255/255.0);
+	        var outlineColor = new Cesium.Color(235/255.0,18/255.0,0,255/255.0);
+	        console.log(entities.length)
+	        for (var o = 0; o < entities.length; o++) {
+	            var entity = entities[o];
+	            if(entity.polyline == undefined){
+	            	entity.billboard = undefined;
+			        entity.point = new Cesium.PointGraphics({
+			            color: Cesium.Color.RED,
+			            pixelSize: 6
+			        });
+	            }else{
+	            	entity.polyline.material = color;
+		            entity.polyline.outline = true;
+		            entity.polyline.outlineColor = outlineColor;
+		            entity.polyline.outlineWidth = 10;
+		            entity.polyline.height = 0;
+		            entity.polyline.extrudedHeight = 0;
+	            }
+	        }
+	    });
+	    viewer.flyTo(promise);
+	}
+    $.ajaxSetup({cache:false})
+    $('#map').load('./_mapserver.html',function(){
+	    var sc =  document.createElement("script");
+	    var scs =  document.createElement("script");
+	    sc.src= "../src/work/drawGridsHandle.js";
+	    scs.src= "../src/work/drawGridsLine.js";
+	    $("body").append(sc);
+	    $("body").append(scs);
+	    $('#map').height($(window).height() - $('.top_content').height() - $('.' +
+			'' +
+			'' +
+			'obj_table_content').height() - $('.butContent').height())
+	});
+    //离散化预处理
+	$('#startHandle').on('click',function(){
+		//console.log(sourceId);
+		
+		if( sourceId == null || sourceId == '' || sourceId == undefined ){
+			layer.msg('待定呢？还不清楚呢？');
+		}else{
+			var index = layer.load(2, {time: 20*1000}); 
+			$.ajax({
+			   url: "/gridgeneration/discretize/doPreDiscretization",
+		       type: "POST",
+		       data:{"sourceId":sourceId,"geolevel":20},
+		       success:function(data){
+		       	//console.log(data)
+		       	layer.close(index);
+		       	getPosition();
+		       	layer.msg('离散化预处理成功');
+		       	$('#startHandle').hide();
+		       },
+		       error:function(){
+		    	   layer.close(index);
+		    	  layer.msg('离散化预处理失败');
+		       }
+		   })
+		}
+	});
+    //离散化预处理
+    /* $('#handle').on('click',function(){
+    	//console.log(sourceId)
+    	//console.log(scode)
+    	ajaxGet('/gridgeneration/discretize/doDiscretization?sourceId='+sourceId+'&geonums='+scode+'',false,function(json){
+    		//console.log(json)
+    		downloadFile(json.targetFile)
+    	});
+    }) */
+    //下载到本地
+     function downloadFile(sUrl) {
+    //iOS devices do not support downloading. We have to inform user about this.
+    if (/(iP)/g.test(navigator.userAgent)) {
+        alert('Your device does not support files downloading. Please try again in desktop browser.');
+        return false;
+    }
+    //If in Chrome or Safari - download via virtual link click
+    if (window.downloadFile.isChrome || window.downloadFile.isSafari) {
+        //Creating new link node.
+        var link = document.createElement('a');
+        link.href = sUrl;
+        if (link.download !== undefined) {
+            //Set HTML5 download attribute. This will prevent file from opening if supported.
+            var fileName = sUrl.substring(sUrl.lastIndexOf('/') + 1, sUrl.length);
+            link.download = fileName;
+        }
+        //Dispatching click event.
+        if (document.createEvent) {
+            var e = document.createEvent('MouseEvents');
+            e.initEvent('click', true, true);
+            link.dispatchEvent(e);
+            return true;
+        }
+    }
+    // Force file download (whether supported by server).
+    if (sUrl.indexOf('?') === -1) {
+        sUrl += '?download';
+    }
+    window.open(sUrl, '_self');
+    return true;
+}
+    
+    /**
+     * 通用的打开下载对话框方法，没有测试过具体兼容性
+     * @param url 下载地址，也可以是一个blob对象，必选
+     * @param saveName 保存文件名，可选
+     */
+    function openDownloadDialog(url, saveName)
+    {
+     if(typeof url == 'object' && url instanceof Blob)
+     {
+      url = URL.createObjectURL(url); // 创建blob地址
+     }
+     var aLink = document.createElement('a');
+     aLink.href = url;
+     aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
+     var event;
+     if(window.MouseEvent) event = new MouseEvent('click');
+     else
+     {
+      event = document.createEvent('MouseEvents');
+      event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+     }
+     aLink.dispatchEvent(event);
+    }
+	</script>
+</html>

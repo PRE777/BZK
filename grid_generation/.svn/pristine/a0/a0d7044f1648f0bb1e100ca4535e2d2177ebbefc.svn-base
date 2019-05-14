@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>BZK全球网格剖分系统</title>
+
+
+    <link rel="stylesheet" type="text/css" href="../src/lib/layui/css/layui.css"/>
+    <link rel="stylesheet" href="../src/css/titile.css"/>
+    <script src="../src/work/jquery.js"></script>
+    <script src="../src/lib/layui/layui.all.js"></script>
+    <script src="../src/lib/layui/layui.js"></script>
+    <script src="../src/work/httprequest.js"></script>
+    <style>
+        .layui-nav-itemed > .layui-nav-child {
+            /*display: block;*/
+            /*padding: 0;*/
+            background-color: rgba(0, 0, 0, .3) !important;
+            /*background-color: transparent!important;*/
+        }
+        .layui-body{
+            overflow-y: hidden!important;
+        }
+        .onelevel{
+            font-size: 17px!important;
+        }
+        .twolevel{
+            font-size: 15px!important;
+            margin-left: 7px;
+        }
+        .threelevel{
+            font-size: 13px!important;
+            margin-left: 15px;
+        }
+
+    </style>
+
+</head>
+
+<body class="layui-layout-body">
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">BZK全球网格剖分系统</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+    </div>
+
+    <div class="layui-side layui-bg-black" id="admin-side">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" id="nav" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="onelevel" href="javascript:;">空间数据资源管理</a>
+                    <dl class="layui-nav-child layui-nav-itemed">
+                        <a class="twolevel" href="javascript:;">数据资源网格索引</a>
+                        <dl class="layui-nav-child">
+                            <dd class="layui-this"
+                            ><a class="threelevel" href="javascript:hanshu('cunliangshujusuoyin');">存量数据网格索引</a></dd>
+                            <dd><a class="threelevel" href="javascript:hanshu('zengliangshujusuoyin');">增量数据网格索引</a></dd>
+                        </dl>
+                   </dl>
+                    <dl class="layui-nav-child">
+                        <dd><a class="twolevel" href="javascript:hanshu('ziyuanjiansuo');">数据资源检索</a></dd>
+                        <dd><a class="twolevel" href="javascript:hanshu('ziyuanfenbu');">数据资源分布</a></dd>
+                        <dd><a class="twolevel" href="javascript:hanshu('ziyuantongji');">数据资源统计</a></dd>
+                        <dd><a class="twolevel" href="javascript:hanshu('ziyuanguanlianzhenghe');">数据资源关联整合</a></dd>
+                    </dl>
+
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="onelevel" href="javascript:;">空间要素管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a class="twolevel" href="javascript:;">空间要素网格索引</a></dd>
+                        <dd><a class="twolevel" href="javascript:hanshu('kongjianyaosuwanggesuoyin');">空间要素网格服务</a></dd>
+                    </dl>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <!--该框架底部有个固定部分，将"margin-bottom: -44px" 目的是覆盖掉底部 -->
+    <div class="layui-body" style="background-color: red;margin-bottom: -44px">
+        <div id="manuContainer" class="mainContainer" style="background-color:greenyellow;width: auto;height: 100%">
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    // $(".layui-nav-item,.layui-nav-child").append("<input type='text' hidden value='1'></input>");
+    //
+    // $(".layui-nav-item,.layui-nav-child").bind("click",function () {
+    //     var temp = $(this).children("input").val();
+    //     if (temp == "1"){
+    //         $(this).children(".layui-nav-child").hide();
+    //         $(this).children("input").val("0")
+    //     } else {
+    //         $(this).children(".layui-nav-child").show();
+    //         $(this).children("input").val("1")
+    //     }
+    //     return false;
+    // });
+
+
+
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+        console.log(element);
+        hanshu('cunliangshujusuoyin');
+        element.on('nav(demo)', function(elem){
+            //console.log(elem)
+            layer.msg(elem.text());
+        });
+    })
+    function hanshu(e) {
+        // alert(e);
+        if (e == "cunliangshujusuoyin"){
+            //存量数据网格索引
+            $('.mainContainer').load('./update.html');
+        }
+        else if (e == "zengliangshujusuoyin"){
+            //存量数据网格索引
+            $('.mainContainer').load('./import.html');
+        }
+        else if (e == "ziyuanjiansuo"){
+            //数据资源检索
+            $('.mainContainer').load('./high_efficiency.html');
+
+        }else  if (e == "ziyuanfenbu"){
+            // 数据资源分布
+            // $('.mainContainer').load('./high_efficiency.html');
+        }
+        else if (e == "ziyuantongji") {
+            // 数据资源统计
+            $('.mainContainer').load('./charts_data.html');
+        }else if (e == "ziyuanguanlianzhenghe") {
+            // 数据资源关联整合
+            $('.mainContainer').load('./link_data.html');
+        }else if (e == "ziyuanguanlianzhenghe") {
+            // 空间要素网格索引
+            $('.mainContainer').load('./link_data.html');
+        }else if (e == "kongjianyaosuwanggesuoyin") {
+            // 空间要素网格服务
+            $('.mainContainer').load('./geojson.html');
+        }
+    }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+﻿# Server 配置
+server:
+  context-path: /gridgeneration
+  address: 0.0.0.0
+  port: 8080
+
+# ---------------------------------- 配置环境 ---------------------------------
+spring.profiles.active: '@spring.boot.profiles.active@'
+
+# ---------------------------------- logback -----------------------------------
+logging:
+  config: classpath:logback-boot.xml
+  
+# ---------------------------------- 庚图接口 -----------------------------------
+geodata:
+   url: http://47.93.17.65:46108/geodata/v1/
+
+
+# ---------------------------------- 常量设置 -----------------------------------
+constant:
+  shp:
+    maxlevel: 26
+    minlevel: 3
+    indexname: bzk_data
+    path: /var/upload/gridgeneration/shp/
+
+spring:
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 100000000MB
+      max-request-size: 100000000MB

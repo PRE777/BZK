@@ -1,0 +1,78 @@
+<style>
+	@import url(../Cesium/Widgets/widgets.css);
+	html,
+	body,
+	#cesiumContainer {
+		width: 100%;
+		/*width: 90%;*/
+		height: 100%;
+		margin: 0;
+		/*margin-left: 10%;*/
+		padding: 0;
+		overflow: hidden;
+	}
+	#view3D{
+		height:100%;
+		/*background-color: red;*/
+	}
+	#toolbar{
+		position:absolute;
+		bottom:30px;
+	}
+</style>
+<div id="cesiumContainer" class="fullSize">
+	<div id="view3D"></div>
+</div>
+<div id="toolbar"></div>
+<script src="../Cesium/Cesium.js"></script>
+<script src="../src/work/DrawTool.js"></script>
+<script id="cesium_sandcastle_script">
+	var clockViewModel = new Cesium.ClockViewModel();
+	Cesium.Ion.defaultAccessToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxYjc3YjU0Ni0wZjI5LTQwZWQtODY0NS05ZGJmMDIzNjZmMWUiLCJpZCI6NDcyOCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0MTQ5NzE2N30.JlrJpwV6UPteUZy3AKt3GahtseSTv8LCD_LncJCB2P4';
+	//创建viewer和一个Id为view3D的DIV绑定
+	var viewer = new Cesium.Viewer('view3D', {
+        sceneMode:Cesium.SceneMode.SCENE3D,//设置初始场景模式为2D
+		animation : false,//是否创建动画小器件，左下角仪表    
+	    baseLayerPicker : false,//是否显示图层选择器    
+	    fullscreenButton : false,//是否显示全屏按钮    
+	    geocoder : false,//是否显示geocoder小器件，右上角查询按钮    
+	    homeButton : false,//是否显示Home按钮    
+	    infoBox : false,//是否显示信息框    
+	    sceneModePicker : true,//是否显示3D/2D选择器
+	    selectionIndicator : false,//是否显示选取指示器组件    
+	    timeline : false,//是否显示时间轴    
+		selectionIndicator:false,
+		infoBox:false,
+	    navigationHelpButton : false,//是否显示右上角的帮助按钮   
+//	    scene3DOnly : true,//如果设置为true，则所有几何图形以3D模式绘制以节约GPU资源    
+	    clock : new Cesium.Clock(),//用于控制当前时间的时钟对象    
+	    selectedImageryProviderViewModel : undefined,//当前图像图层的显示模型，仅baseLayerPicker设为true有意义    
+	    imageryProviderViewModels : Cesium.createDefaultImageryProviderViewModels(),//可供BaseLayerPicker选择的图像图层ProviderViewModel数组    
+	    selectedTerrainProviderViewModel : undefined,//当前地形图层的显示模型，仅baseLayerPicker设为true有意义    
+	    terrainProviderViewModels : Cesium.createDefaultTerrainProviderViewModels(),//可供BaseLayerPicker选择的地形图层ProviderViewModel数组    
+	    imageryProvider : new Cesium.WebMapTileServiceImageryProvider({
+	        url: "http://t0.tianditu.com/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=8ff7fd50649991cdca26d3e60fbbffd5",
+	        layer: "tdtVecBasicLayer",
+	        style: "default",
+	        format: "image/jpeg",
+	        show: false
+	    })
+	});
+	viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({
+	    url: "http://t0.tianditu.com/cva_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=8ff7fd50649991cdca26d3e60fbbffd5",
+	    layer: "tdtAnnoLayer",
+	    style: "default",
+	    format: "image/jpeg",
+	    tileMatrixSetID: "GoogleMapsCompatible",
+	    show: false
+	}));
+	//取消双击事件
+	//viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+	//隐藏logo
+	viewer._cesiumWidget._creditContainer.style.display="none";
+	//设置初始位置
+    viewer.camera.setView({
+        destination: Cesium.Cartesian3.fromDegrees(110.20, 34.55, 10000000)
+    });
+</script>
+<!-- <script type="text/javascript" src="../src/work/drawGridServer.js"></script> -->

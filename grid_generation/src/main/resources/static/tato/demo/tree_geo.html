@@ -1,0 +1,123 @@
+<style type="text/css">
+    .from_obj {
+        position: absolute;
+        z-index: 9999;
+        /*top: 14.7%;*/
+        /*left: 0.5%;*/
+    }
+
+    h1,
+    h2,
+    h3 {
+        padding: 10px 0;
+    }
+
+    /**
+        不知那地方用，先注释掉，勿删---李伟
+        a {
+            text-align: right;
+            font-size: 18px;
+            color: #1C86EE;
+        }
+    */
+
+    .xtree_contianer {
+        overflow: auto;
+        margin-bottom: 30px;
+        background-color: #fff;
+        padding: 5px 0 25px 0px;
+        box-sizing: border-box;
+    }
+
+    .div-btns {
+        margin: 20px 0;
+    }
+
+    .layui-form-label {
+        width: 60px !important;
+    }
+
+    .layui-form-checked[lay-skin=primary] i {
+        background-color: #5B8CFF;
+        border-color: #5B8CFF;
+    }
+
+    .layui-form-checkbox[lay-skin=primary]:hover i {
+        background-color: none;
+        border-color: none;
+    }
+
+    .layui-xtree-icon {
+        color: #5A7CCD !important;
+    }
+
+    .tree_obj {
+        display: flex;
+        opacity: 0.9;
+        background: #496FC9;
+        height: 32px;
+        align-items: center;
+        font-family: PingFangSC-Regular;
+        font-size: 16px;
+        color: #FFFFFF;
+        padding-left: 10px;
+        box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.50);
+    }
+
+    .tree_obj_from {
+        opacity: 0.9;
+        background: #FFFFFF;
+        border: 0 solid #979797;
+        box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.50);
+    }
+</style>
+<!--别忘记form 以及form的class-->
+<div class="from_obj">
+    <div class="tree_obj">
+        <img src="../src/img/encoding/start.png" style="margin-right: 10px;"/>
+        <span>资源目录</span>
+    </div>
+    <form class="layui-form tree_obj_from">
+        <div id="xtree1" class="xtree_contianer"></div>
+    </form>
+</div>
+
+<script src="../src/lib/layui/layui-xtree.js"></script>
+<script type="text/javascript">
+    //一套json数据下面会使用，同时供你参考
+    var xtree1;
+    ajaxGet('/gridgeneration/data/getVectorSourceCatalogue', false, function (json) {
+        //********************
+        //      正式开始
+        //********************
+        //layui 的 form 模块是必须的
+        layui.use(['form'], function () {
+            var form = layui.form;
+            //1、最基础的用法 - 直接绑定json
+            xtree1 = new layuiXtree({
+                elem: 'xtree1', //(必填) 放置xtree的容器，样式参照 .xtree_contianer
+                form: form, //(必填) layui 的 from
+                data: json.data//(必填) json数据
+                ,
+                icon: { //三种图标样式，更改几个都可以，用的是layui的图标
+                    open: "&#xe625;", //节点打开的图标
+                    close: "&#xe623;", //节点关闭的图标
+                    end: "" //末尾节点的图标
+                },
+                color: { //三种图标颜色，独立配色，更改几个都可以
+                    open: "#EE9A00", //节点图标打开的颜色
+                    close: "#EEC591", //节点图标关闭的颜色
+                    end: "#828282" //末级节点图标的颜色
+                },
+                click: function (data) { //节点选中状态改变事件监听，全选框有自己的监听事件
+                    //console.log(data.elem); //得到checkbox原始DOM对象
+                    //console.log(data.elem.checked); //开关是否开启，true或者false
+                    //console.log(data.value); //开关value值，也可以通过data.elem.value得到
+                    //console.log(data.othis); //得到美化后的DOM对象
+                }
+            });
+        });
+    })
+
+
+</script>

@@ -1,0 +1,80 @@
+.ser_server{
+	font-family: .PingFang-SC-Medium;
+	font-size: 14px;
+	color: #5B7DCE;
+	letter-spacing: 0;
+	margin-left: 3%;
+}
+.server_but{
+	display: flex;
+	justify-content: space-evenly;
+	margin:24px 0 60px 0;
+}
+.ser_but_bg{
+	border-radius: 20px;
+	width: 12.2%;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	color: #5B8CFF;
+}
+.ser_but_abg{
+	background: #5B8CFF;
+	color: #FFFFFF;
+}
+.server_but .ser_but_bg:nth-child(1){
+	border: 1px solid #5B8CFF;
+	border-radius: 20px;
+}
+.server_but .ser_but_bg:nth-child(2){
+	border: 1px solid #5B8CFF;
+	border-radius: 20px;
+}
+.server_but .ser_but_bg:nth-child(3){
+	border: 1px solid #5B8CFF;
+	border-radius: 20px;
+}
+.server_list{
+	font-size: 14px;
+    color: #5B7DCE;
+    letter-spacing: 0;
+    padding-left: 3%;
+    border-top: 1px solid #ccc;
+	padding-top: 20px;
+	display:flex;
+}
+.server_list > div{
+	margin-right:30px;
+}
+.inforZ{
+	font-family: PingFangSC-Regular;
+	font-size: 14px;
+	color: #496FC9;
+	letter-spacing: 0;
+	margin-left:135px;
+	margin-top:100px;
+	display:none;
+}
+.ser_but_bg{
+	cursor:pointer;
+}
+.layui-border-box{
+	border: 0px;
+	padding: 14px 10% 0 10%;
+}
+.layui-table-page{
+	padding: 53px 0px 0;
+	height: auto;
+}
+.layui-table thead tr{
+	background: #FFFFFF;
+}
+.layui-table-box{
+	border: 1px solid #ccc;
+}
+.list_days > div{
+	float:left;
+	display:none;
+	margin-left:20px;
+}

@@ -1,0 +1,82 @@
+html,body{
+	overflow: hidden !important;
+}
+.top_content{
+	height: 60px;
+	display: flex;
+	background: rgb(91,140,255);
+	width: 100%;
+	align-items: center;
+}
+.obj_logo{
+	display: block;
+	width: 39px;
+	height: 39px;
+	margin: 0 14px 0 41px;
+	border-radius:39px;
+}
+.obj_name{
+	font-family: PingFangSC-Semibold;
+	font-size: 20px;
+	color: #FFFFFF;
+}
+
+/* table */
+.obj_table_content{
+	display: flex;
+	/* width: 90%; */
+	align-items: center;
+	background: #263D76;
+	margin-right: 9.7%;
+}
+.obj_table_title{
+	flex: 1;
+	background: #263D76;
+	height: 40px;
+	line-height: 40px;
+	font-family: PingFangSC-Regular;
+	font-size: 16px;
+	color: #FFFFFF;
+	display: flex;
+}
+.obj_table_title li{
+	font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    user-select: none;
+    cursor: pointer;
+    text-align: center;
+    flex: 1;
+}
+.hover_bg{
+	background: #496FC9;
+}
+.obj_img_jt{
+	height: 40px;
+	display: flex;
+	align-items: center;
+	background: #263D76;
+	z-index:99999;
+}
+.obj_jt{
+	display: block;
+	width: 8px;
+	height: 14px;
+	margin-right: 5px;
+    margin-left: 5px;
+}
+
+.enc_ul{
+	text-align: center;
+    display: none;
+    text-align: center;
+    background: white;
+	color: #5B8CFF;
+	z-index: 99999;
+	position: relative;
+}
+.enc_ul div:hover{
+	background: #496FC9;
+	color: #FFFFFF;
+}

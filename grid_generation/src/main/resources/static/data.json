@@ -1,0 +1,397 @@
+[
+  {
+    "title": "001",
+    "data": [
+      {
+        "fieldName": "externalCoding",
+        "propertyName": "01",
+        "showName": "外编码"
+      },
+      {
+        "fieldName": "geoResID",
+        "propertyName": "01",
+        "showName": "地理数据资源ID"
+      },
+      {
+        "fieldName": "geoResName",
+        "propertyName": "01",
+        "showName": "地理数据资源名称"
+      },
+      {
+        "fieldName": "lats",
+        "propertyName": "01",
+        "showName": "纬度范围"
+      },
+      {
+        "fieldName": "lngs",
+        "propertyName": "01",
+        "showName": "经度范围"
+      },
+      {
+        "fieldName": "subtype",
+        "propertyName": "01",
+        "showName": "地理数据资源子类别"
+      },
+      {
+        "fieldName": "dataType",
+        "propertyName": "01",
+        "showName": "数据类别"
+      },
+      {
+        "fieldName": "publisher",
+        "propertyName": "01",
+        "showName": "数据发布单位"
+      },
+      {
+        "fieldName": "producerName",
+        "propertyName": "01",
+        "showName": "产品生产单位"
+      },
+      {
+        "fieldName": "productDate",
+        "propertyName": "01",
+        "showName": "产品生产日期"
+      },
+      {
+        "fieldName": "ownerName",
+        "propertyName": "01",
+        "showName": "产品所有权单位"
+      },
+      {
+        "fieldName": "productName",
+        "propertyName": "01",
+        "showName": "产品名称"
+      },
+      {
+        "fieldName": "size",
+        "propertyName": "01",
+        "showName": "数据量"
+      },
+      {
+        "fieldName": "scale1",
+        "propertyName": "01",
+        "showName": "比例尺"
+      },
+      {
+        "fieldName": "cellSize",
+        "propertyName": "01",
+        "showName": "地面分辨率"
+      },
+      {
+        "fieldName": "create_time",
+        "propertyName": "02",
+        "showName": "入库时间"
+      },
+      {
+        "fieldName": "TopLeft",
+        "propertyName": "02",
+        "showName": "左上坐标点"
+      },
+      {
+        "fieldName": "TopRigh",
+        "propertyName": "02",
+        "showName": "右上坐标点"
+      },
+      {
+        "fieldName": "BottomRight",
+        "propertyName": "02",
+        "showName": "右下坐标点"
+      },
+      {
+        "fieldName": "BottomLeft",
+        "propertyName": "02",
+        "showName": "左下坐标点"
+      }
+    ]
+  },
+  {
+    "title": "002",
+    "data": [
+      {
+        "fieldName": "externalCoding",
+        "propertyName": "01",
+        "showName": "外编码"
+      },
+      {
+        "fieldName": "geoResID",
+        "propertyName": "01",
+        "showName": "地理数据资源ID"
+      },
+      {
+        "fieldName": "geoResName",
+        "propertyName": "01",
+        "showName": "地理数据资源名称"
+      },
+      {
+        "fieldName": "lats",
+        "propertyName": "01",
+        "showName": "纬度范围"
+      },
+      {
+        "fieldName": "lngs",
+        "propertyName": "01",
+        "showName": "经度范围"
+      },
+      {
+        "fieldName": "subtype",
+        "propertyName": "01",
+        "showName": "地理数据资源子类别"
+      },
+      {
+        "fieldName": "dataType",
+        "propertyName": "01",
+        "showName": "数据类别"
+      },
+      {
+        "fieldName": "publisher",
+        "propertyName": "01",
+        "showName": "数据发布单位"
+      },
+      {
+        "fieldName": "producerName",
+        "propertyName": "01",
+        "showName": "产品生产单位"
+      },
+      {
+        "fieldName": "productDate",
+        "propertyName": "01",
+        "showName": "产品生产日期"
+      },
+      {
+        "fieldName": "ownerName",
+        "propertyName": "01",
+        "showName": "产品所有权单位"
+      },
+      {
+        "fieldName": "productName",
+        "propertyName": "01",
+        "showName": "产品名称"
+      },
+      {
+        "fieldName": "maptype",
+        "propertyName": "01",
+        "showName": "矢量地图种类"
+      },
+      {
+        "fieldName": "dataType",
+        "propertyName": "01",
+        "showName": "数据类别"
+      },
+      {
+        "fieldName": "size",
+        "propertyName": "01",
+        "showName": "数据量"
+      },
+      {
+        "fieldName": "scale1",
+        "propertyName": "01",
+        "showName": "比例尺"
+      },
+      {
+        "fieldName": "createTime",
+        "propertyName": "02",
+        "showName": "入库时间"
+      },
+      {
+        "fieldName": "TopLeft",
+        "propertyName": "02",
+        "showName": "左上坐标点"
+      },
+      {
+        "fieldName": "TopRigh",
+        "propertyName": "02",
+        "showName": "右上坐标点"
+      },
+      {
+        "fieldName": "BottomRight",
+        "propertyName": "02",
+        "showName": "右下坐标点"
+      },
+      {
+        "fieldName": "BottomLeft",
+        "propertyName": "02",
+        "showName": "左下坐标点"
+      }
+    ]
+  },
+  {
+    "title": "003",
+    "data": [
+      {
+        "fieldName": "externalCoding",
+        "propertyName": "01",
+        "showName": "外编码"
+      },
+      {
+        "fieldName": "geoResID",
+        "propertyName": "01",
+        "showName": "地理数据资源ID"
+      },
+      {
+        "fieldName": "geoResName",
+        "propertyName": "01",
+        "showName": "地理数据资源名称"
+      },
+      {
+        "fieldName": "lats",
+        "propertyName": "01",
+        "showName": "纬度范围"
+      },
+      {
+        "fieldName": "lngs",
+        "propertyName": "01",
+        "showName": "经度范围"
+      },
+      {
+        "fieldName": "dataType",
+        "propertyName": "01",
+        "showName": "数据类别"
+      },
+      {
+        "fieldName": "productDate",
+        "propertyName": "01",
+        "showName": "产品生产日期"
+      },
+      {
+        "fieldName": "productName",
+        "propertyName": "01",
+        "showName": "产品名称"
+      },
+      {
+        "fieldName": "scale1",
+        "propertyName": "01",
+        "showName": "比例尺"
+      },
+      {
+        "fieldName": "cellSize",
+        "propertyName": "01",
+        "showName": "地面分辨率"
+      },
+      {
+        "fieldName": "createTime",
+        "propertyName": "02",
+        "showName": "入库时间"
+      },
+      {
+        "fieldName": "TopLeft",
+        "propertyName": "02",
+        "showName": "左上坐标点"
+      },
+      {
+        "fieldName": "TopRigh",
+        "propertyName": "02",
+        "showName": "右上坐标点"
+      },
+      {
+        "fieldName": "BottomRight",
+        "propertyName": "02",
+        "showName": "右下坐标点"
+      },
+      {
+        "fieldName": "BottomLeft",
+        "propertyName": "02",
+        "showName": "左下坐标点"
+      }
+    ]
+  },
+  {
+    "title": "004",
+    "data": [
+      {
+        "fieldName": "externalCoding",
+        "propertyName": "01",
+        "showName": "外编码"
+      },
+      {
+        "fieldName": "geoResID",
+        "propertyName": "01",
+        "showName": "地理数据资源ID"
+      },
+      {
+        "fieldName": "geoResName",
+        "propertyName": "01",
+        "showName": "地理数据资源名称"
+      },
+      {
+        "fieldName": "lats",
+        "propertyName": "01",
+        "showName": "纬度范围"
+      },
+      {
+        "fieldName": "lngs",
+        "propertyName": "01",
+        "showName": "经度范围"
+      },
+      {
+        "fieldName": "subtype",
+        "propertyName": "01",
+        "showName": "地理数据资源子类别"
+      },
+      {
+        "fieldName": "dataType",
+        "propertyName": "01",
+        "showName": "数据类别"
+      },
+      {
+        "fieldName": "publisher",
+        "propertyName": "01",
+        "showName": "数据发布单位"
+      },
+      {
+        "fieldName": "producerName",
+        "propertyName": "01",
+        "showName": "产品生产单位"
+      },
+      {
+        "fieldName": "productDate",
+        "propertyName": "01",
+        "showName": "产品生产日期"
+      },
+      {
+        "fieldName": "ownerName",
+        "propertyName": "01",
+        "showName": "产品所有权单位"
+      },
+      {
+        "fieldName": "productName",
+        "propertyName": "01",
+        "showName": "产品名称"
+      },
+      {
+        "fieldName": "size",
+        "propertyName": "01",
+        "showName": "数据量"
+      }
+    ]
+  },
+  {
+    "title": "999",
+    "data": [
+      {
+        "fieldName": "name",
+        "propertyName": "01",
+        "showName": "名称"
+      },
+      {
+        "fieldName": "createTime",
+        "propertyName": "01",
+        "showName": "入库时间"
+      },
+      {
+        "fieldName": "lng",
+        "propertyName": "01",
+        "showName": "经度"
+      },
+      {
+        "fieldName": "lat",
+        "propertyName": "01",
+        "showName": "纬度"
+      },
+      {
+        "fieldName": "address",
+        "propertyName": "01",
+        "showName": "地址"
+      }
+    ]
+  }
+]

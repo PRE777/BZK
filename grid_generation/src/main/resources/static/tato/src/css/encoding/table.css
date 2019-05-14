@@ -1,0 +1,72 @@
+.colose_img{
+	position:absolute;
+	top:12px;
+	right:12px;
+}
+.bottom_table{
+	max-height: 281px;
+	height:25%;
+	box-sizing: border-box;
+	width:100%;
+	display:none;
+	bottom:0px;
+	background: #F7F7F7;
+	position:absolute;
+	z-index:9999;
+}
+.color_table{
+	font-family: .PingFang-SC-Medium;
+	font-size: 14px;
+	color: #5B8CFF;
+	letter-spacing: 0;
+	margin:10px 2.4% 8px 2.4%;
+}
+/* 表格 */
+.layui-border-box{
+	padding: 0px 2.4% 0 2.4%;
+	background: #F7F7F7;
+	border: 0px solid #D4D4D4;
+	height: 211px;
+	box-sizing: border-box;
+	margin:0px;
+	width:100%;
+}
+.layui-table thead tr{
+	background-color: #fff;
+}
+/* 分页 */
+.layui-table-page{
+	display: flex;
+  	justify-content: flex-end;
+}
+.layui-laypage .layui-laypage-curr .layui-laypage-em{
+	background: #5B8CFF;
+	
+}
+.layui-table-page .layui-laypage a{
+	border: 1px solid #5B8CFF;
+	margin-right: 5px;
+	box-sizing: border-box;
+	color: #5B8CFF;
+	border-radius: 4px;
+}
+.layui-table-page .layui-laypage a, .layui-table-page .layui-laypage span.layui-laypage-curr{
+	margin-right: 5px;
+	color: #5B8CFF;
+}
+#layui-table-page1,.layui-table-page .layui-laypage a, .layui-table-page .layui-laypage span{
+	color: #5B8CFF;
+}
+.layui-table-page .layui-laypage input{
+	border: 1px solid #5B8CFF;
+	border-radius: 4px;
+	color: #5B8CFF;
+}
+.layui-table-page .layui-laypage button{
+	border: 1px solid #5B8CFF;
+	border-radius: 4px;
+	color: #5B8CFF;
+}
+.layui-table-page{
+	padding: 7px 0px 0;
+}

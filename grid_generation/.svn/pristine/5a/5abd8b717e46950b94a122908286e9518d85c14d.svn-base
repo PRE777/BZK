@@ -1,0 +1,17 @@
+{
+	"server_status": 200,
+	"server_error": null,
+	"data": [{
+		"dataType": "001",
+		"dataName": "影像数据"
+	}, {
+		"dataType": "002",
+		"dataName": "数字高程模拟数据"
+	}, {
+		"dataType": "003",
+		"dataName": "矢量地图数据"
+	}, {
+		"dataType": "004",
+		"dataName": "地名数据"
+	}]
+}

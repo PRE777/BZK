@@ -1,0 +1,212 @@
+.infor_but{
+	position: absolute;
+	top: 60px;
+	right:0px;
+	width: 9.7%;
+}
+.right_infor_content{
+	background: #FFFFFF;
+	box-shadow: 1px 1px 4px 0 rgba(0,0,0,0.50);
+	border-radius: 2px;
+	top: 14%;
+	position: absolute;
+	z-index: 99999;
+	right: 1.2%;
+	width: 60px;
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+}
+.right_infor{
+	background: #FFFFFF;
+	width: 60px;
+	
+}
+.right_infor_right{
+	background: #FFFFFF;
+	width: 60px;
+}
+.infor_but_content{
+	padding:5px 0;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: #979797;
+}
+.infor_but_content img{
+	display: block;
+	width: 30px;
+	height: 30px;
+}
+.infor_but_content span{
+	font-family: PingFangSC-Regular;
+	font-size: 8px !important;
+	display: block;
+	
+	letter-spacing: 0;
+	margin-top: 5px;
+}
+.infor_but_content_bg{
+	background: #5B8CFF;
+	color: #FFFFFF;
+}
+/* 多点查询 */
+
+.infor_ban{
+	position: absolute;
+	right: 6.7%;
+	top: 25.7%;
+	z-index: 9999;
+	height: 332px;
+	width: 230px;
+	display: flex;
+	flex-direction: column;
+	display: none;
+}
+.infor_one_but{
+	height: 32px;
+	display: flex;
+	align-items: center;
+	opacity: 0.9;
+	background: #5B8CFF;
+}
+.infor_one_but img{
+	margin: 0 10px 0 3px;
+}
+.infor_two_but{
+	ont-family: PingFangSC-Regular;
+	font-size: 14px;
+	color: #5B8CFF;
+	flex: 1;
+	opacity: 0.9;
+	background: #FFFFFF;
+	border: 0 solid #979797;
+	box-shadow: 1px 1px 4px 0 rgba(0,0,0,0.50);
+	min-height: 267px;
+}
+
+/* 单选框 */
+.in_lay_but{
+	margin-left:0px;
+	display: flex;
+	line-height: 0px;
+	min-height:0px;
+	margin-left: 17px;
+}
+.layui-form-radio{
+	display: flex;
+	line-height: 28px;
+    margin: 0px;
+    padding-right: 0px;
+    cursor: pointer;
+    font-size: 0;
+}
+.layui-form-radio>i:hover, .layui-form-radioed>i{
+	color: #6A96FE;
+}
+.infor_flex_ui{
+	font-size:12px;
+}
+/* 时间 */
+.inf_time_onr{
+	width: 133px !important;
+	height: 19px !important;
+	margin-left: 12px;
+	padding-left:2.8px;
+	box-sizing:border-box;
+	font-size: 12px;
+	color: #C4C5C8;
+}
+.infor_layui_inline{
+	justify-content: center;
+	display: flex;
+	margin: 5px 0 !important;
+}
+.layui-form-radio div{
+	font-size: 12px;
+}
+.layui-laydate .layui-this{
+	background-color: #5B8CFF!important;
+}
+/* 修改下拉框 */
+.infor_data_sel{
+	width:132px;
+	height:18px;
+	font-size: 11px;
+	color: #5B8CFF;
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	background: url(../../img/xsel.png) no-repeat right center;
+	font-family:Microsoft YaHei;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+.infor_select_class{
+	display: flex;
+	justify-content: center;
+	margin-bottom: 8px;
+}
+.infor_select_voe{
+	margin-left: 10px;
+	
+}
+#img_sel_infor{
+	width: 132px;
+    height: 18px;
+    margin: 0;
+    color: #5B8CFF;
+    padding: 0;
+    border: 0px;
+    border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+#yu_sel_infor{
+	width: 132px;
+    height: 18px;
+    color: #5B8CFF;
+    margin: 0;
+    padding: 0;
+    border: 0px;
+    border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+.infor_select_name{
+	min-width: 52px;
+	font-size:12px;
+}
+/* 标题党 */
+.infor_content_cha{
+	height: 34px;
+	display: flex;
+	align-items:center;
+	padding: 0 0 0 13px;
+}
+.img_blue_j{
+	display: block;
+	margin: 0 6px;
+	width: 10px;
+	height: 6px;
+}
+.in_lay_but .layui-unselect:nth-child(2){
+	margin-right: 10px;
+}
+.layui-form-radio>i{
+	margin-right: 4px;
+	font-size: 11px;
+}
+.infor_but_cha{
+	opacity: 0.9;
+	border: 1px solid #6A96FE;
+	width: 37px;
+	height: 18px;
+	float: right;
+	text-align: center;
+	line-height: 18px;
+	margin-right: 14px;
+	margin-bottom: 5px;
+	font-family: PingFangSC-Regular;
+font-size: 12px;
+color: #6A96FE;
+}

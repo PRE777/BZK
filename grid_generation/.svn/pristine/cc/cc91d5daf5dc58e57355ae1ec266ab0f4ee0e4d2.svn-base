@@ -1,0 +1,24 @@
+﻿# ----------------------------------ES-----------------------------------------
+escluster:
+  transport:
+    name: iwhere-es-dev
+    ip: 192.168.50.170
+    port: 9300
+
+vector:
+  discretization:
+    tmp: /tmp/
+    uploadPath: /usr/iwhere/DiscretizationUpload/
+    generatePath: /usr/iwhere/generatePath/
+    featureIndexName: feature
+    featureTypeName: doc
+    vectorIndexName: vector
+    vectorTypeName: doc
+    featuresIndexName: feature_index
+    featuresTypeName: doc
+
+spring:
+  http:
+    multipart:
+      maxFileSize: 1000Mb  
+      maxRequestSize: 1000Mb

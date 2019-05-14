@@ -1,0 +1,63 @@
+/* 开关 */
+.toggle-bar {
+    color: #c9caca;
+    height: 40px;
+    box-sizing: border-box;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	background: #FFFFFF;
+	width: 100%;
+}
+
+.toggle-bar .t-b-title {
+	margin-right: 11px;
+    font-family: PingFangSC-Regular;
+	font-size: 12px;
+	color: #666666;
+	letter-spacing: 0;
+}
+
+.toggle-bar .t-b-chkbox {
+    display: none;
+}
+
+.toggle-bar .t-b-lbl {
+    box-shadow: #ccc 0px 0px 0px 1px;
+    width: 40px;
+    height: 20px;
+    display: inline-block;
+    border-radius: 20px;
+    position: relative;
+    background-color: #bdbdbd;
+    overflow: hidden;
+}
+
+.toggle-bar .t-b-lbl:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-radius: 20px;
+    background-color: #fff;
+    z-index: 20;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.toggle-bar .t-b-chkbox:checked + label.t-b-lbl:before {
+    left: 20px;
+}
+
+.toggle-bar .t-b-chkbox:checked + label.t-b-lbl {
+    background-color: #67D878;
+}
+.flex_iop{
+	border-top: 1px solid #ccc;
+	height: 40px;
+}
+
+
+

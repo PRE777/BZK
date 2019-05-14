@@ -1,0 +1,151 @@
+<!-- 网格编码索引 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>BZK全球网格剖分系统</title>
+		<link rel="stylesheet" type="text/css" href="../src/lib/layui/css/layui.css"/>
+		<link rel="stylesheet" href="../src/css/titile.css" />
+		<link rel="stylesheet" href="../src/css/encoding/encoding.css" />
+		<link rel="stylesheet" href="../src/css/encoding/server.css" />
+		<script src="../src/work/jquery.js"></script>
+		<script src="../src/lib/layui/layui.all.js"></script>
+		<script src="../src/work/httprequest.js"></script>
+		<script type="text/javascript" src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+		<script type="text/javascript" src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+	</head>
+	<body>
+	<!--<div id="high_efficiency"></div>-->
+	<!--<script>-->
+		<!--$('#high_efficiency').load('./head.html');-->
+	<!--</script>-->
+	<div class="enc_div">
+	<div id="enc_but">
+		<div class="encoding_ele">
+			<div id="enc_name">数据自动更新服务</div>
+		</div>
+	</div>
+</div>
+<!-- 服务状态 -->
+<div class="ser_server">
+	<span>服务状态:</span>
+	<span class="server_sed">启动</span>
+</div>
+<!-- 按钮server -->
+<div class="server_but">
+	<div class="ser_but_bg" id="open_server">
+		<img src="../src/img/encoding/start.png" />
+		<span>服务启动</span>
+	</div>
+	<div class="ser_but_bg" id="close_server">
+		<img src="../src/img/encoding/colse.png" />
+		<span>服务关闭</span>
+	</div>
+</div>
+<!-- 日志 -->
+<div class="server_list">
+	<div>日志列表</div>
+	<div class="list_days">
+		<div>更新数据总量：<span id="inS">0</span>/<span id="outS">0</span>条</div>
+		<div>正常处理：<span id="normal">0</span>条</div>
+		<div>失败处理：<span id="fail">0</span>条</div>
+	</div>
+	
+</div>
+<div class="inforZ">正在处理中.......</div>
+<script src="../src/work/enc.js"></script>
+<script>
+$(function () { 
+	    ajaxGet('/gridgeneration/data/getdateStatus',false,function(json){
+			if(json.data.status == '01'){
+				$('.server_but .ser_but_bg').eq(0).addClass('ser_but_abg')
+				$('.server_but .ser_but_bg').eq(0).find('img').attr('src',"../src/img/encoding/startb.png");
+			}else{
+				$('.server_but .ser_but_bg').eq(1).addClass('ser_but_abg')
+				$('.server_but .ser_but_bg').eq(1).find('img').attr('src',"../src/img/encoding/colse.png");
+			}
+		},function(error){
+			if(error.server_status != 200){
+				layer.msg('服务器异常,请稍后再试')
+			}
+		})
+		$('.server_but .ser_but_bg').on('click',function(){
+			var index = $(this).index();
+			if( $('.server_but .ser_but_bg').eq(index).is('.ser_but_abg') ){
+				layer.msg('选中状态！不能再点击了！')
+				return;
+			}else{
+				
+			}
+			if( index == 0 ){
+				var comdata = {
+						status:'01'	
+				}
+			}else{
+				var comdata = {
+						status:'02'	
+				}
+			}
+			ajaxPost('/gridgeneration/data/autoupdateStatus',comdata,function(json){
+				if( json.process == 'success' ){
+					$('.server_but .ser_but_bg').eq(index).addClass('ser_but_abg').siblings().removeClass('ser_but_abg')
+					if( index == 0 ){
+						$('.server_but .ser_but_bg').eq(index).find('img').attr('src',"../src/img/encoding/startb.png");
+						$('.server_but .ser_but_bg').eq(1).find('img').attr('src',"../src/img/encoding/colse.png");
+					}else if(index == 1){
+						$('.server_but .ser_but_bg').eq(0).find('img').attr('src',"../src/img/encoding/start.png");
+						$('.server_but .ser_but_bg').eq(index).find('img').attr('src',"../src/img/encoding/colseb.png");
+					}
+				}else{
+					layer.msg('服务运行失败！')
+				}
+			},function(error){
+				if(error.server_status != 200){
+					layer.msg('服务器异常,请稍后再试')
+				}
+			})
+			
+			
+		})
+		
+		/*
+		* WebSocket
+		*/
+		var stompClient = null;
+		function connect() {
+			var socket = new SockJS('/gridgeneration/endpointSang');
+		    stompClient = Stomp.over(socket);
+		    stompClient.connect({}, function(frame) {  
+		    //setConnected(true);  
+		    	/* send() */
+		        console.log('Connected: ' + frame);
+		    	console.log(stompClient)
+		        stompClient.subscribe('/topic/updateStatus', function(greeting){
+		        	var data = JSON.parse(greeting.body)
+		        	console.log(data.data)
+		            //showGreeting(greeting.body);  
+		        });
+		    });
+		}
+		
+		//关闭双通道
+		function disconnect(){
+			 $("[name=switch]:checkbox").prop("checked", false);
+			console.log(123123)
+			fik_primitives.removeAll();
+			clearTime(2)
+		    if(stompClient != null) {
+		        stompClient.disconnect();
+		    }
+		    console.log("Disconnected");
+		}
+		//发送个假消息
+		/* function send(){
+			console.log(1111)
+			stompClient.send("/keepwatch", {}, JSON.stringify({'name': '3333'}));
+		} */
+		connect()
+	})
+	
+</script>
+</html>

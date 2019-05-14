@@ -1,0 +1,239 @@
+<!-- 网格编码索引 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>BZK全球网格剖分系统</title>
+		<link rel="stylesheet" type="text/css" href="../src/lib/layui/css/layui.css"/>
+		<link rel="stylesheet" href="../src/css/titile.css" />
+		<script src="../src/work/jquery.js"></script>
+		<script src="../src/lib/layui/layui.all.js"></script>
+		<script src="../src/work/httprequest.js"></script>
+		<script type="text/javascript" src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+		<script type="text/javascript" src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+	</head>
+	<body>
+	<div id="high_efficiency"></div>
+	<script>
+		$.ajax({cache: false})
+		$('#high_efficiency').load('./head.html');
+	</script>
+	<link rel="stylesheet" href="../src/css/buts.css" />
+	<!-- 开关 -->
+	<div class="infor_but">
+		<div class="infor_div_but">
+			<div class="but_div_vx">面板开关</div>
+			<div class="div1 close1">
+				<span class="left"></span>
+				<span class="right"></span>
+				<div class="div2 close2"></div>
+			</div>
+		</div>
+	</div>
+	<div class="newdata"></div>
+	<script>
+		$('.newdata').load('./tree_yes.html');
+	</script>
+	<div id="map">
+	</div>
+	<!-- 右层菜单栏 -->
+
+	<div class="infor_ban">
+		<div class="infor_one_but">
+			<img src="../src/img/jjjj.png" style="margin-left: 10px;"/>
+			<span style="color: font-size: 16px;color: #FFFFFF;;">参数配置</span>
+		</div>
+		<div class="infor_two_but">
+			<div class="infor_select_class">
+				<div class="infor_select_name">更新监视:</div>
+				<div class="toggle-button-wrapper">
+				    <input type="checkbox" id="toggle-button" name="switch" checked>
+				    <label for="toggle-button" class="button-label">
+				        <span class="circle"></span>
+				        <span class="text on">ON</span>
+				        <span class="text off">OFF</span>
+				    </label>
+				</div>
+			</div>
+			<div class="infor_content_cha">
+				<span>查看日期:</span>
+			</div>
+			<div class="layui-inline infor_layui_inline">
+				<input type="text" class="layui-input inf_time_onr" id="test11" placeholder="请选择日期">
+			</div>
+			<div class="infor_content_cha">
+				<span>空间范围:</span>
+			</div>
+			<div class="aer_box">
+				<label class="bui-radios-label bui-radios-anim">
+			        <input type="radio" name="sex" value="全球范围" checked><i class="bui-radios"></i>
+			        <span>全球范围</span>
+			    </label>
+			    <label class="bui-radios-label bui-radios-anim">
+			        <input type="radio" name="sex" value="区域"><i class="bui-radios"></i>
+						<div class="infor_select_voet">
+							<select class="infor_data_sel" id="resolving_power">
+								<!-- <option value="特定区域1">特定区域1</option>
+								<option value="特定区域2">特定区域2</option> -->
+							</select>
+						</div>
+			    </label>
+			</div>
+			<div class="infor_but_cha" id="btnSubmit">查询</div>
+		</div>
+	</div>
+	<link rel="stylesheet" href="../src/css/encoding/data_distribution.css" />
+	<!-- 底层color栏目 -->
+	<div class="color_content_data">
+		<p class="color_nums">数量（万）</p>
+		<ul class="color_ul">
+			<li>
+				<span style="background: #4F6FEF;"></span>
+				<span>0-50</span>
+			</li>
+			<li>
+				<span style="background: #52ADF8;"></span>
+				<span>51-100</span>
+			</li>
+			<li>
+				<span style="background: #79F2D9;"></span>
+				<span>101-150</span>
+			</li>
+			<li>
+				<span style="background: #F4F39A;"></span>
+				<span>151-250</span>
+			</li>
+			<li>
+				<span style="background: #FDEF24;"></span>
+				<span>251-300</span>
+			</li>
+			<li>
+				<span style="background: #DC651C;"></span>
+				<span>300-350</span>
+			</li>
+			<li>
+				<span style="background: #E81818;"></span>
+				<span>350以上</span>
+			</li>
+		</ul>
+	</div>
+	</body>
+<script>
+$('#map').load('./_mapserver.html',function(){
+    var sc =  document.createElement("script");
+    sc.src= "../src/work/drawGridServer.js";
+    $("body").append(sc);
+    $('#map').height($(window).height() - $('.top_content').height() - $('.obj_table_content').height())
+    receive();
+});
+</script>
+<!-- <script type="text/javascript" src="../src/work/drawGridServer.js"></script> -->
+<script type="text/javascript">
+	/* $(function () { */
+		window.onload = function() {
+		//特定区域
+		ajaxGet('/gridgeneration/data/getSpecial',false,function(json){
+			console.log(json.datas)
+			var html = "";
+			if( json.datas.length == 0 ){
+				return;
+			}
+			for(var i=0;i<json.datas.length;i++){
+				html += '<option value='+json.datas[0].value+'>'+json.datas[0].name+'</option>';
+			};
+			$('#resolving_power').append(html)
+		})
+		console.log($(window).height())
+		console.log($('.top_content').height())
+		console.log($('.obj_table_content').height())
+		
+		//面板开关 网格
+		$(".div1").on('click',function() {
+			if( xtree1.GetChecked().length == 0 ){
+				layer.msg('请勾选要查找的资源');
+				return;
+			}
+			if( $(this).is('.close1') ){
+				//关
+				console.log(123)
+				noBox()
+				NoDrawGrid();
+			}else{
+				//开
+				console.log(1234)
+				drawGrid();
+				listter();
+			}
+			$(this).toggleClass('close1');
+			$(this).toggleClass('open1');
+			$(".div2").toggleClass('close2');
+			$(".div2").toggleClass('open2');
+		})
+		//面板开关 监控
+		$('#toggle-button').on('click', function () {
+			if (this.checked) {
+				connect()
+			} else {
+				disconnect()
+			}
+		});
+		setTimeout(function(){
+        	//开
+        	drawGrid();
+        	listter();
+        	//链接
+        	connect();
+    	}, 2000);
+		//查询
+		var val;
+		$('.infor_but_cha').on('click',function(){
+			if( xtree1.GetChecked().length == 0 ){
+	    		layer.msg('请勾选要查找的资源');
+	    		return;
+	    	}
+			//区域
+			var powerVal = $('#resolving_power').val();
+			//比例尺
+			var scaleVal = $('#scale_sel').val();
+			//云量
+			var yu_sel_infor = $('#yu_sel_infor').val();
+			//图符
+			var img_sel_infor = $('#img_sel_infor').val();
+			//特定区域
+		    var powerVal = $('#resolving_power').val();
+		  //查看时间
+			var stratTime = $('#test11').val();
+			var comdata = {};
+			if( $('input:radio[name="sex"]:checked').val() == '区域' ){
+				val = $('#resolving_power').val();
+			}else{
+				val = $('input:radio[name="sex"]:checked').val()
+			}
+			var height_cearm = Math.ceil(viewer.camera.positionCartographic.height);
+	        if( val == '全球范围' ){
+	        	comdata['height'] = height_cearm;
+	        	comdata['typecode'] = '000';
+	        }else{
+	        	if($('input:radio[name="sex"]:checked').val() == '区域'){
+	        		comdata['dataType'] = powerVal;
+		    		comdata['height'] = height_cearm;
+	        	}else{
+	        		comdata['typecode'] = powerVal;
+		    		comdata['height'] = height_cearm;
+	        	}
+	        	
+	        }
+	        var serch = 'serch'	
+			dgBox(comdata,serch)
+		})	  
+		layui.use('laydate', function(){
+		    var laydate = layui.laydate;
+			laydate.render({
+			  elem: '#test11',
+			  format: 'yyyy-MM-dd'
+			});
+		})
+	}
+	/* }); */
+</script>
+</html>

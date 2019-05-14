@@ -1,0 +1,103 @@
+.infor_div_but{
+	color: #c9caca;
+    height: 40px;
+    box-sizing: border-box;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	background: #FFFFFF;
+	width: 100%;
+}
+.but_div_vx{
+	margin-right: 11px;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #666666;
+}
+.div1{
+	width: 40px;
+	height: 20px;
+	border-radius: 15px;
+	overflow: hidden;
+	box-shadow: #ccc 0px 0px 0px 1px;
+	position: relative;
+}
+.div1 .left{
+	position: absolute;
+	left:4px;
+}
+.div1 .right{
+	position: absolute;
+	right:4px;
+}
+.div2{
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #fff;
+	position: absolute;
+}
+.open1{
+	background: #ddd;
+}
+.open2{
+}
+.close1{
+	width: 40px;
+	height: 20px;
+	border-radius: 15px;
+	overflow: hidden;
+	left:0;
+	position: relative;
+	background: #67D878;
+	box-shadow: #ccc 0px 0px 0px 1px;
+	transition: all 0.5s;
+}
+.close2{
+	left: 20px;
+}
+.toggle-button-wrapper{
+	margin-left:10px;
+}
+#toggle-button{ display: none; }
+.button-label{
+	margin-top: 5px;
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 22px;
+    background-color: #ccc;
+    box-shadow: #ccc 0px 0px 0px 2px;
+    border-radius: 30px;
+    overflow: hidden;
+}
+.circle{
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #fff;
+}
+.button-label .text {
+    line-height: 23px;
+    font-size: 12px;
+    text-shadow: 0 0 2px #ddd;
+}
+
+.on { color: #fff; display: none; text-indent: 10px;}
+.off { color: #fff; display: inline-block; text-indent: 21px;}
+.button-label .circle{
+    left: 0;
+    transition: all 0.3s;
+}
+#toggle-button:checked + label.button-label .circle{
+    left: 32px;
+}
+#toggle-button:checked + label.button-label .on{ display: inline-block; }
+#toggle-button:checked + label.button-label .off{ display: none; }
+#toggle-button:checked + label.button-label{
+    background-color: #67D878;
+}
+
